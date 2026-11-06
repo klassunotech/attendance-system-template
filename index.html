@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Klassuno.tech｜Attendance System 點名系統</title>
+<title>Klassuno Tech｜Attendance Management System</title>
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <style type="text/tailwindcss">
@@ -20,24 +20,57 @@
   .loader { border-top-color:#3498db; animation: sp 1.2s linear infinite; }
   @keyframes sp { to { transform: rotate(360deg); } }
 </style>
+<style>
+:root{--kt-navy:#0f2a5c;--kt-navy2:#1b3f86;--kt-bg:#f4f6fb;--kt-text:#1f2937;--kt-muted:#6b7280;--kt-line:#d1d5db;--kt-ok:#16a34a;--kt-err:#dc2626;--kt-warn:#d97706;--kt-r:14px}
+.kt-login{min-height:100vh;display:flex;background:var(--kt-bg);color:var(--kt-text)}
+.kt-login.hidden{display:none}
+.kt-brand{flex:0 0 42%;background:var(--kt-navy);color:#fff;padding:56px 48px;display:flex;flex-direction:column;justify-content:space-between}
+.kt-logo{display:flex;align-items:center;gap:12px;font-size:22px;font-weight:800;letter-spacing:.2px}
+.kt-mark{width:40px;height:40px;border-radius:10px;background:#fff;color:var(--kt-navy);display:grid;place-items:center;font-weight:900;font-size:22px}
+.kt-brand h1{font-size:30px;line-height:1.25;font-weight:800;margin:0 0 12px}
+.kt-brand p{font-size:17px;opacity:.85;margin:0}.kt-brand small{opacity:.65;font-size:13px}
+.kt-panel{flex:1;display:flex;align-items:center;justify-content:center;padding:24px}
+.kt-card{width:100%;max-width:420px;background:#fff;border-radius:var(--kt-r);padding:36px 32px;box-shadow:0 10px 30px rgba(15,42,92,.12)}
+.kt-mbrand{display:none;align-items:center;gap:10px;font-weight:800;color:var(--kt-navy);font-size:20px;margin-bottom:6px}
+.kt-mbrand .kt-mark{background:var(--kt-navy);color:#fff;width:34px;height:34px;font-size:18px}
+.kt-card h2{font-size:22px;font-weight:800;margin:0 0 4px}.kt-sub{color:var(--kt-muted);font-size:14px;margin:0 0 22px}
+.kt-f{margin-bottom:16px}.kt-f label.kt-l{display:block;font-size:13px;font-weight:700;margin-bottom:6px}
+.kt-in{width:100%;min-height:46px;padding:10px 12px;border:1px solid var(--kt-line);border-radius:10px;font-size:16px;background:#fff;outline:none}
+.kt-in:focus{border-color:var(--kt-navy2);box-shadow:0 0 0 3px rgba(27,63,134,.18)}
+.kt-pw{position:relative}.kt-pw .kt-in{padding-right:64px}
+.kt-eye{position:absolute;right:6px;top:5px;min-height:36px;padding:0 10px;border:0;background:none;color:var(--kt-navy2);font-weight:700;font-size:13px;cursor:pointer}
+.kt-chk{display:flex;align-items:center;gap:8px;font-size:14px;margin-bottom:8px}.kt-chk input{width:18px;height:18px}
+.kt-btn{width:100%;min-height:48px;border:0;border-radius:10px;background:var(--kt-navy);color:#fff;font-size:16px;font-weight:800;cursor:pointer;margin-top:8px}
+.kt-btn:hover{background:var(--kt-navy2)}.kt-btn:disabled{opacity:.6;cursor:wait}
+.kt-msg{min-height:22px;font-size:14px;margin:12px 0 0;font-weight:600}.kt-msg.err{color:var(--kt-err)}.kt-msg.ok{color:var(--kt-ok)}
+.kt-help{font-size:12.5px;color:var(--kt-muted);margin-top:18px;line-height:1.7}.kt-help a{color:var(--kt-navy2);text-decoration:underline}
+@media(max-width:768px){.kt-login{background:#fff}.kt-brand{display:none}.kt-mbrand{display:flex}.kt-panel{align-items:flex-start;padding:20px 0}.kt-card{box-shadow:none;padding:24px 20px}}
+</style>
 </head>
 <body class="bg-gray-100 text-gray-800">
 
 <!-- 登入 -->
-<div id="login" class="min-h-screen flex items-center justify-center p-4">
-  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md text-center">
-    <div class="text-3xl font-extrabold tracking-tight text-blue-800">Klassuno.tech</div>
-    <div class="text-xs text-gray-400 tracking-wide mb-4">Education &amp; Sports Management Systems</div>
-    <h1 class="text-xl font-bold mb-1 text-gray-800">Attendance System 點名系統</h1>
-    <p class="text-sm text-gray-500 mb-4">請輸入系統密碼</p>
-    <input id="op-name" class="inp mb-3" maxlength="20" placeholder="操作人姓名（選填，會記入紀錄）">
-    <input type="password" id="pwd" class="inp mb-2 text-lg" placeholder="系統密碼" autocomplete="current-password" onkeydown="if(event.key==='Enter')app.login()">
-    <label class="flex items-center justify-center gap-2 text-sm text-gray-600 mb-1"><input type="checkbox" id="remember" class="w-4 h-4"> 記住此瀏覽器（30 日內免再輸入密碼）</label>
-    <p class="text-xs text-gray-400 mb-4">不剔選：今日內免再輸入；按「登出」會即時作廢登入</p>
-    <button class="btn bg-blue-600 w-full text-lg" onclick="app.login()">登入</button>
-    <p id="login-msg" class="text-red-600 text-sm mt-4"></p>
-    <p class="text-xs text-gray-400 mt-6">© 2026 Klassuno.tech. All rights reserved.<br><a class="underline" href="mailto:klassuno.tech@gmail.com">Contact: klassuno.tech@gmail.com</a></p>
-  </div>
+<div id="login" class="kt-login">
+  <aside class="kt-brand">
+    <div class="kt-logo"><span class="kt-mark">K</span>Klassuno Tech</div>
+    <div><h1>Attendance Management System</h1><p>Simple, Smart &amp; Practical Management.</p></div>
+    <small>Class + Uno ｜ 教育及體育團隊管理的一站式平台</small>
+  </aside>
+  <main class="kt-panel">
+    <form id="login-form" class="kt-card" autocomplete="on" onsubmit="app.login();return false">
+      <div class="kt-mbrand"><span class="kt-mark">K</span>Klassuno Tech</div>
+      <h2>登入系統</h2><p class="kt-sub">Attendance Management System 點名系統</p>
+      <div class="kt-f"><label class="kt-l" for="op-name">帳戶名稱（選填，會記入點名紀錄）</label>
+        <input id="op-name" name="username" class="kt-in" maxlength="20" autocomplete="username" autocapitalize="off" placeholder="例：陳老師"></div>
+      <div class="kt-f"><label class="kt-l" for="pwd">密碼</label>
+        <div class="kt-pw"><input type="password" id="pwd" name="password" class="kt-in" autocomplete="current-password" placeholder="請輸入密碼"><button type="button" id="pw-eye" class="kt-eye" onclick="app.togglePwd()" aria-label="顯示或隱藏密碼">顯示</button></div></div>
+      <label class="kt-chk"><input type="checkbox" id="save-user"> 記住帳戶名稱</label>
+      <label class="kt-chk"><input type="checkbox" id="remember"> 保持登入 30 日（只限個人裝置）</label>
+      <button type="submit" id="login-btn" class="kt-btn">登入</button>
+      <p id="login-msg" class="kt-msg err" role="alert" aria-live="polite"></p>
+      <div class="kt-help">忘記密碼？請聯絡你的系統管理員重設。<br>不勾選「保持登入」：今日內免再輸入，閒置 2 小時會自動登出。<br>© 2026 Klassuno Tech ｜ <a href="mailto:klassuno.tech@gmail.com">klassuno.tech@gmail.com</a></div>
+    </form>
+  </main>
 </div>
 
 <!-- 主介面 -->
@@ -266,7 +299,7 @@
     </section>
   </main>
   <footer class="text-center text-xs text-gray-500 p-4">
-    <div>Powered by Klassuno.tech · Attendance System v1.0.0</div>
+    <div>Powered by Klassuno.tech · Attendance Management System v1.1.0</div>
     <div>© 2026 Klassuno.tech. All rights reserved. · <a class="underline" href="mailto:klassuno.tech@gmail.com">Contact: klassuno.tech@gmail.com</a></div>
   </footer>
 </div>
@@ -284,8 +317,8 @@
 
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbwlJZYlbwsueZbeRpg72iNisKA3OgT30tbwOTdBhY3p-AEegJHbNVTJwvbgriCznP3E/exec'; // 貼上 Apps Script 網頁應用程式網址（…/exec）
-const APP_VERSION = '1.0.0'; // 須與 Code.gs 的 VERSION 一致
-const BASE_TITLE = 'Klassuno.tech｜Attendance System 點名系統';
+const APP_VERSION = '1.1.0'; // 須與 Code.gs 的 VERSION 一致
+const BASE_TITLE = 'Klassuno Tech｜Attendance Management System';
 const STATUS = ['出席', '遲到', '病假', '請假', '缺席', '公出/活動'];
 const SC = { // on＝按鈕選中；tile＝格仔；chip＝統計標籤
   '出席': { ico: '🟢', on: '!bg-green-500 !text-white !border-green-600', tile: 'bg-green-100 border-green-400 text-green-900', chip: 'bg-green-100 border-green-300 text-green-800' },
@@ -314,6 +347,7 @@ const app = {
     const d0 = new Date(Date.now() - 30 * 864e5); $('h-from').value = new Date(d0 - d0.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
     $('s-from').value = y0 + '-09-01'; $('s-to').value = t; $('ex-from').value = y0 + '-09-01'; $('ex-to').value = t;
     this.colPanel();
+    try { const u = localStorage.getItem('kt_user'); if (u) { $('op-name').value = u; $('save-user').checked = true; } } catch (_) {}
     let v = null; try { v = localStorage.getItem('ath_view'); } catch (_) {}
     this.vw = (v === 'grid' || v === 'list') ? v : (window.innerWidth < 1024 ? 'grid' : 'list');
   },
@@ -359,7 +393,7 @@ const app = {
     const vw = $('ver-warn');
     if (u.version !== APP_VERSION) { vw.textContent = '⚠️ 後端版本（' + (u.version || '舊版') + '）與網頁（' + APP_VERSION + '）不一致，部分功能可能出錯。請把最新 Code.gs 重新部署為「新版本」。'; vw.classList.remove('hidden'); } else vw.classList.add('hidden');
     ['nav-athletes', 'nav-transfer'].forEach(i => $(i).classList.toggle('hidden', u.role !== 'admin'));
-    $('pwd').value = ''; $('login').classList.add('hidden'); $('main').classList.remove('hidden'); this.nav('attendance');
+    $('pwd').value = ''; $('login').classList.add('hidden'); this.idleArm(); $('main').classList.remove('hidden'); this.nav('attendance');
   },
   setOrg(n) { // 機構名稱：顯示在頂部列及瀏覽器標題
     n = String(n || '').trim();
@@ -372,30 +406,44 @@ const app = {
       this.setOrg(r.orgName); alert('✅ 已儲存機構名稱');
     } catch (e) { alert('❌ 儲存失敗：\n' + e.message); }
   },
+  togglePwd() { const p = $('pwd'), s = p.type === 'password'; p.type = s ? 'text' : 'password'; $('pw-eye').textContent = s ? '隱藏' : '顯示'; },
+  IDLE_MS: 120 * 60000, // 須與 Code.gs 的 IDLE_MIN 一致
+  idleArm() { // 未保持登入的連線：閒置超時自動登出（後端亦會獨立判斷，不只依賴前端）
+    clearTimeout(this._idle); if (!this.s.token || this.s.rem) return;
+    this._idle = setTimeout(() => { if (this.s.dirty || this.s.busy) return this.idleArm(); this.logout('閒置過久，已自動登出，請重新登入。'); }, this.IDLE_MS);
+  },
   async login() {
-    const pwd = $('pwd').value;
-    if (!/^https:/.test(API_URL)) { $('login-msg').textContent = '尚未設定 API_URL，請先在 index.html 貼上 Apps Script 網頁應用程式網址'; return; }
-    if (!pwd) { $('login-msg').textContent = '請輸入密碼'; return; }
-    this.s.op = $('op-name').value.trim().slice(0, 20); $('login-msg').textContent = '';
+    if (this.s.loggingIn) return; // 防止重複提交
+    const pwd = $('pwd').value, msg = $('login-msg'), btn = $('login-btn');
+    const say = (t, ok) => { msg.textContent = t; msg.className = 'kt-msg ' + (ok ? 'ok' : 'err'); };
+    if (!/^https:/.test(API_URL)) return say('系統尚未完成設定，請聯絡管理員。');
+    if (!pwd) return say('請輸入密碼');
+    const op = $('op-name').value.trim().slice(0, 20), rem = $('remember').checked;
+    this.s.op = op; this.s.loggingIn = true; btn.disabled = true; btn.textContent = '登入中…'; say('');
     try {
-      const u = await this.api('login', { password: pwd, remember: $('remember').checked });
-      this.s.token = u.token;
-      try { localStorage.setItem('ath_tk', JSON.stringify({ token: u.token, exp: u.exp })); } catch (_) {} // 只存後端發出的憑證，不存密碼
-      this.enter(u);
-    } catch (e) { this.s.token = ''; $('login-msg').textContent = e.message; }
+      const u = await this.api('login', { password: pwd, remember: rem }, { silent: true });
+      this.s.token = u.token; this.s.rem = rem;
+      try { // 只存後端發出的憑證及帳戶名稱，不存密碼
+        localStorage.setItem('ath_tk', JSON.stringify({ token: u.token, exp: u.exp, rem: rem }));
+        if ($('save-user').checked && op) localStorage.setItem('kt_user', op); else localStorage.removeItem('kt_user');
+      } catch (_) {}
+      say('登入成功，正在載入…', true); this.enter(u);
+    } catch (e) { this.s.token = ''; say(e.message); }
+    finally { this.s.loggingIn = false; btn.disabled = false; btn.textContent = '登入'; }
   },
   async resume() { // 開頁時用已存的憑證自動登入
     let tk = null; try { tk = JSON.parse(localStorage.getItem('ath_tk')); } catch (_) {}
     if (!tk || !tk.token || tk.exp < Date.now() || !/^https:/.test(API_URL)) { try { localStorage.removeItem('ath_tk'); } catch (_) {} return; }
-    this.s.token = tk.token; $('login').classList.add('hidden');
+    this.s.token = tk.token; this.s.rem = tk.rem === true; $('login').classList.add('hidden');
     try { this.enter(await this.api('whoami', {}, { silent: true })); }
     catch (e) {
       this.s.token = ''; $('login').classList.remove('hidden'); $('login-msg').textContent = e.message;
-      if (/登入已過期|密碼錯誤/.test(e.message)) { try { localStorage.removeItem('ath_tk'); } catch (_) {} }
+      if (/登入已過期|帳戶名稱或密碼不正確/.test(e.message)) { try { localStorage.removeItem('ath_tk'); } catch (_) {} }
     }
   },
-  logout(msg) {
-    if (this.s.token && !msg) this.api('logout', {}, { silent: true }).catch(() => {}); // 通知後端作廢憑證
+  logout(msg, noApi) {
+    clearTimeout(this._idle);
+    if (this.s.token && !noApi) this.api('logout', {}, { silent: true }).catch(() => {}); // 通知後端作廢憑證
     try { localStorage.removeItem('ath_tk'); } catch (_) {}
     this.s = { token: '', role: '', groups: [], athletes: [], att: {}, orig: {}, hist: [], busy: false, loaded: null, dirty: false, defStatus: '缺席', tile: {} };
     document.title = BASE_TITLE;
@@ -419,7 +467,7 @@ const app = {
       return r.data;
     } catch (e) {
       const m = e.name === 'AbortError' ? '連線逾時，資料可能未有儲存，請稍後重試並先檢查紀錄' : (e instanceof TypeError ? '網絡連線失敗，資料未有儲存，請檢查網絡後再試' : e.message);
-      if (/密碼錯誤|登入已過期/.test(m) && this.s.token) { this.logout('登入已過期或密碼已更改，請重新登入'); }
+      if (/登入已過期/.test(m) && this.s.token) { this.logout('登入已過期或密碼已更改，請重新登入', true); }
       throw new Error(m);
     } finally { clearTimeout(t); if (!opt.silent) $('busy').classList.add('hidden'); }
   },
@@ -988,6 +1036,7 @@ const app = {
 };
 window.addEventListener('beforeunload', e => { if (app.s.dirty || app.s.busy) { e.preventDefault(); e.returnValue = ''; } });
 if (/^https:/.test(API_URL)) fetch(API_URL, { mode: 'no-cors' }).catch(() => {}); // 開頁即叫醒後端
+['click', 'keydown', 'touchstart'].forEach(ev => document.addEventListener(ev, () => app.idleArm(), { passive: true }));
 app.init(); app.resume();
 </script>
 </body>
