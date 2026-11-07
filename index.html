@@ -2,7 +2,7 @@
 <html lang="zh-HK">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Klassuno Tech｜Attendance Management System</title>
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
@@ -46,7 +46,7 @@
 .kt-help{font-size:12.5px;color:var(--kt-muted);margin-top:18px;line-height:1.7}.kt-help a{color:var(--kt-navy2);text-decoration:underline}
 @media(max-width:768px){.kt-login{background:#fff}.kt-brand{display:none}.kt-mbrand{display:flex}.kt-panel{align-items:flex-start;padding:20px 0}.kt-card{box-shadow:none;padding:24px 20px}}
 
-html,body{max-width:100%}body{overflow-x:clip}
+html,body{max-width:100%}body{overflow-x:hidden;overflow-x:clip}
 .kt-app *,.kt-app,.kt-login,.kt-login *{box-sizing:border-box}
 body{font-family:system-ui,-apple-system,"Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--kt-text)}
 .kt-app{display:flex;min-height:100vh;background:var(--kt-bg)}.kt-app.hidden{display:none}
@@ -74,7 +74,7 @@ main h2{color:var(--kt-navy);border-color:#e5e7eb}
 @media(max-width:1023px){
  .kt-side{top:auto;right:0;width:auto;height:calc(60px + env(safe-area-inset-bottom));flex-direction:row;padding:0 4px env(safe-area-inset-bottom);box-shadow:0 -2px 8px rgba(0,0,0,.15)}
  .kt-sb{display:none}.kt-nav{flex-direction:row;width:100%;gap:0}
- .kt-nav button{flex:1;min-width:0;flex-direction:column;justify-content:center;gap:2px;padding:0 2px;font-size:11px;text-align:center;border-radius:8px}
+ .kt-nav button{flex:1;min-width:0;flex-direction:column;justify-content:center;gap:2px;padding:0 2px;font-size:12px;text-align:center;border-radius:8px}
  .kt-nav button i{font-style:normal;font-size:20px;line-height:1}
  .kt-nav [data-n=attendance]{order:-1}
  .kt-body{margin-left:0;padding-bottom:calc(68px + env(safe-area-inset-bottom))}
@@ -87,6 +87,64 @@ main h2{color:var(--kt-navy);border-color:#e5e7eb}
  #tr-table thead{display:none}#tr-table,#tr-table tbody{display:block}
  #tr-table tr{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;padding:10px 12px;border-bottom:1px solid #e5e7eb}
  #tr-table td{padding:0!important}#tr-table td:nth-child(2){flex:1 1 55%;font-size:16px}
+}
+/* ===== Responsive UI 修正 ===== */
+@supports (min-height:100dvh){.kt-login,.kt-app,.kt-body{min-height:100dvh}}
+@supports (height:1dvh){#sheet-body{max-height:85dvh}}
+body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+.kt-top{padding-top:calc(10px + env(safe-area-inset-top))}
+#sheet-body{padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+main .grid>*{min-width:0}
+select.inp{text-overflow:ellipsis}
+.gb{white-space:nowrap}.inp[type=date]{white-space:nowrap}
+#att-bar{background:var(--kt-bg)}
+#att-list .break-all{word-break:normal;overflow-wrap:anywhere}
+.kt-top>div:first-child{min-width:0;overflow-wrap:anywhere}.kt-top .gb{flex:none}
+.kt-tap{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;margin:-10px;cursor:pointer}
+.kt-sticky{position:sticky;left:0;z-index:1;background:#fff;box-shadow:1px 0 0 #e5e7eb}
+thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
+.kt-detail{position:sticky;left:0;max-width:calc(100vw - 48px);max-height:9rem;overflow-y:auto;white-space:normal}
+#h-body td:first-child{white-space:nowrap}
+#rs-team-wrap{flex-wrap:wrap}#rs-team-wrap>div{flex:1 1 140px;min-width:0}
+@media(min-width:768px){.kt-detail{max-width:calc(100vw - 96px)}}
+@media(min-width:1024px){.kt-detail{max-width:calc(100vw - 330px)}}
+@media(max-width:1279px){.kt-two{grid-template-columns:1fr}}
+@media(min-width:1180px){main .kt-pb6{grid-template-columns:repeat(6,minmax(0,1fr))}}
+@media(min-width:1280px){main .kt-ex5{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media(min-width:1400px){main .kt-f7{grid-template-columns:repeat(7,minmax(0,1fr))}}
+@media(max-width:1023px){
+ .kt-side{padding-left:calc(4px + env(safe-area-inset-left));padding-right:calc(4px + env(safe-area-inset-right))}
+ #h-sum-table th:last-child,#h-sum-table td:last-child{position:sticky;right:0;background:#fff;box-shadow:-1px 0 0 #e5e7eb}
+ #h-sum-table thead th:last-child{background:#f3f4f6}
+ body:has(:is(input[type=search],input[type=text],input[type=number],input[type=password],input:not([type]),textarea):focus) .kt-side{display:none}
+ body:has(:is(input[type=search],input[type=text],input[type=number],input[type=password],input:not([type]),textarea):focus) .kt-body{padding-bottom:0}
+ body:has(:is(input[type=search],input[type=text],input[type=number],input[type=password],input:not([type]),textarea):focus) #att-submit{position:static}
+}
+@media(max-width:767px){
+ #tr-table .kt-tap{margin:0}
+ #tr-table td[colspan]{padding:16px!important;text-align:center;width:100%}
+ #att-bar{display:contents}#att-bar.hidden{display:none}
+ #att-row1{position:sticky;top:0;z-index:20;background:var(--kt-bg);flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:4px 0;height:52px}
+ #att-subs{position:sticky;top:52px;z-index:19;background:var(--kt-bg);flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+ #att-subs:empty{display:none}
+ #att-row1::-webkit-scrollbar,#att-subs::-webkit-scrollbar{display:none}
+ #att-row1>*,#att-subs>*{flex:none}#att-row1>.flex-1{display:none}#att-sum{white-space:nowrap}
+}
+@media(max-width:380px){main .grid:has(input[type=date]){grid-template-columns:1fr}}
+@media(pointer:coarse){
+ main .gb,.kt-top .gb{min-height:44px}main .inp{min-height:44px}
+ .kt-eye{min-height:44px;top:1px}.kt-help a,footer a{display:inline-block;padding:10px 4px}
+ #sec-athletes label.flex.items-center,#sec-summary label.text-sm{display:flex;align-items:center;min-height:44px}
+ #s-cols button{min-height:44px}
+}
+@media(max-width:1023px) and (max-height:500px) and (orientation:landscape){
+ .kt-side{height:calc(48px + env(safe-area-inset-bottom))}
+ .kt-nav button{flex-direction:row;gap:6px;font-size:12px}
+ .kt-body{padding-bottom:calc(56px + env(safe-area-inset-bottom))}
+ .kt-top{padding-top:calc(4px + env(safe-area-inset-top));padding-bottom:4px}
+ #att-submit{bottom:calc(56px + env(safe-area-inset-bottom))!important}
+ #att-bar,#att-row1,#att-subs{position:static}
+ #submit-btn{padding-top:8px;padding-bottom:8px;font-size:1rem}
 }
 </style>
 </head>
@@ -155,7 +213,7 @@ main h2{color:var(--kt-navy);border-color:#e5e7eb}
       </div>
       <div id="att-note" class="hidden mb-3 p-2 bg-amber-50 border border-amber-300 rounded text-sm text-amber-800"></div>
       <div id="att-bar" class="hidden sticky top-0 z-20 bg-gray-100 pb-1">
-        <div class="flex flex-wrap items-center gap-1.5 py-1">
+        <div id="att-row1" class="flex flex-wrap items-center gap-1.5 py-1">
           <span id="att-sum" class="font-bold text-sm"></span>
           <input type="date" id="att-date2" class="gb" onchange="app.setDate(this.value)"><button class="gb" onclick="app.setDate(app.today())">今日</button>
           <span class="flex-1"></span>
@@ -219,7 +277,7 @@ main h2{color:var(--kt-navy);border-color:#e5e7eb}
       <div class="card">
         <h3 class="font-bold mb-2">下載點名紀錄（按日期範圍）</h3>
         <p class="text-sm text-gray-600 mb-3">先輸入開始及結束日期，再按下載。組別留空＝全部組別。</p>
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-3 items-end">
+        <div class="grid grid-cols-2 sm:grid-cols-3 kt-ex5 gap-3 items-end">
           <div><label class="lbl">由</label><input type="date" id="ex-from" class="inp"></div>
           <div><label class="lbl">至</label><input type="date" id="ex-to" class="inp"></div>
           <div><label class="lbl">大組別</label><select id="ex-big" class="inp" onchange="app.fillSub('ex-big')"></select></div>
@@ -283,7 +341,7 @@ main h2{color:var(--kt-navy);border-color:#e5e7eb}
         <p class="text-xs text-gray-500 mt-2">只會更改成員目前所屬的大組別及細組別。成員 ID 不變，不會刪除成員；歷史點名紀錄保留原來的組別名稱，轉組後的新點名會歸入新組別。目標組別須已存在（可在「管理後台」新增）。</p>
       </div>
       <div class="bg-white rounded shadow overflow-x-auto mb-6"><table id="tr-table" class="w-full text-left text-sm">
-        <thead class="bg-gray-100"><tr><th class="p-3 w-10"><input type="checkbox" class="w-5 h-5" onchange="app.trAllTog(this.checked)"></th><th class="p-3">姓名</th><th class="p-3">性別</th><th class="p-3">年齡</th><th class="p-3">組別</th><th class="p-3">操作</th></tr></thead>
+        <thead class="bg-gray-100"><tr><th class="p-3 w-10"><label class="kt-tap"><input type="checkbox" class="w-5 h-5" onchange="app.trAllTog(this.checked)"></label></th><th class="p-3">姓名</th><th class="p-3">性別</th><th class="p-3">年齡</th><th class="p-3">組別</th><th class="p-3">操作</th></tr></thead>
         <tbody id="tr-body"><tr><td colspan="6" class="p-4 text-center text-gray-500">載入中…</td></tr></tbody></table></div>
       <div class="card" id="imp-card">
         <h3 class="font-bold mb-2">成員名單匯入 (CSV)</h3>
@@ -317,7 +375,7 @@ main h2{color:var(--kt-navy);border-color:#e5e7eb}
     <!-- 歷史 -->
     <section id="sec-history" class="hidden">
       <h2 class="text-xl font-bold mb-4 border-b pb-2">歷史紀錄查詢</h2>
-      <div class="card grid grid-cols-2 md:grid-cols-7 gap-3 items-end">
+      <div class="card grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 kt-f7 gap-3 items-end">
         <div><label class="lbl">由</label><input type="date" id="h-from" class="inp"></div>
         <div><label class="lbl">至</label><input type="date" id="h-to" class="inp"></div>
         <div><label class="lbl">大組別</label><select id="h-big" class="inp" onchange="app.fillSub('h-big')"></select></div>
@@ -328,7 +386,7 @@ main h2{color:var(--kt-navy);border-color:#e5e7eb}
       </div>
       <div class="flex gap-3 mb-3 items-center"><button class="btn bg-green-600" onclick="app.exportHist()">匯出 CSV（明細）</button><span id="h-info" class="text-sm text-gray-600"></span></div>
       <h3 class="font-bold mb-2">點名統計（按目前篩選結果）</h3>
-      <div class="bg-white rounded shadow overflow-x-auto mb-6"><table class="w-full text-left text-sm">
+      <div class="bg-white rounded shadow overflow-x-auto mb-6"><table id="h-sum-table" class="w-full text-left text-sm">
         <thead class="bg-gray-100"><tr><th class="p-2">日期</th><th class="p-2">組別</th><th class="p-2">人數</th><th class="p-2">出席</th><th class="p-2">遲到</th><th class="p-2">病假</th><th class="p-2">請假</th><th class="p-2">缺席</th><th class="p-2">公出/活動</th><th class="p-2">操作</th></tr></thead>
         <tbody id="h-sum"><tr><td colspan="10" class="p-4 text-center text-gray-500">請按「搜尋」</td></tr></tbody></table></div>
       <h3 class="font-bold mb-2">明細</h3>
@@ -340,7 +398,7 @@ main h2{color:var(--kt-navy);border-color:#e5e7eb}
     <!-- 成員統計 -->
     <section id="sec-summary" class="hidden">
       <h2 class="text-xl font-bold mb-4 border-b pb-2">成員統計（出席／遲到／病假／請假／缺席／公出/活動）</h2>
-      <div class="card grid grid-cols-2 md:grid-cols-7 gap-3 items-end">
+      <div class="card grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 kt-f7 gap-3 items-end">
         <div><label class="lbl">由</label><input type="date" id="s-from" class="inp"></div>
         <div><label class="lbl">至</label><input type="date" id="s-to" class="inp"></div>
         <div><label class="lbl">大組別</label><select id="s-big" class="inp" onchange="app.fillSub('s-big')"></select></div>
@@ -362,7 +420,7 @@ main h2{color:var(--kt-navy);border-color:#e5e7eb}
     </section>
   </main>
   <footer class="text-center text-xs text-gray-500 p-4">
-    <div>Powered by Klassuno.tech · Attendance Management System v1.2.0</div>
+    <div>Powered by Klassuno.tech · Attendance Management System v1.2.1</div>
     <div>© 2026 Klassuno.tech. All rights reserved. · <a class="underline" href="mailto:klassuno.tech@gmail.com">Contact: klassuno.tech@gmail.com</a></div>
   </footer>
   </div>
@@ -381,7 +439,7 @@ main h2{color:var(--kt-navy);border-color:#e5e7eb}
 
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbwlJZYlbwsueZbeRpg72iNisKA3OgT30tbwOTdBhY3p-AEegJHbNVTJwvbgriCznP3E/exec'; // 貼上 Apps Script 網頁應用程式網址（…/exec）
-const APP_VERSION = '1.2.0'; // 須與 Code.gs 的 VERSION 一致
+const APP_VERSION = '1.2.1'; // 須與 Code.gs 的 VERSION 一致
 const BASE_TITLE = 'Klassuno Tech｜Attendance Management System';
 const STATUS = ['出席', '遲到', '病假', '請假', '缺席', '公出/活動'];
 const SC = { // on＝按鈕選中；tile＝格仔；chip＝統計標籤
@@ -393,7 +451,7 @@ const SC = { // on＝按鈕選中；tile＝格仔；chip＝統計標籤
   '公出/活動': { ico: '🔵', on: '!bg-blue-500 !text-white !border-blue-600', tile: 'bg-blue-500 border-blue-600 text-white', chip: 'bg-blue-100 border-blue-300 text-blue-800' }
 };
 const SUMDEF = [['Group', '組別'], ['Name', '姓名'], ['Age', '年齡'], ['total', '總節數'], ['present', '出席'], ['late', '遲到'], ['sick', '病假'], ['leave', '請假'], ['abs', '缺席'], ['comp', '公出/活動'], ['prate', '出席率'], ['rate', '缺席率']];
-const GSEL = [['att-big', 'att-sub', '選擇大組別', '選擇細組別'], ['h-big', 'h-sub', '全部', '全部'], ['s-big', 's-sub', '全部', '全部'], ['ex-big', 'ex-sub', '全部', '全部'], ['rs-big', 'rs-sub', null, '全部細組別'], ['da-big', 'da-sub', null, '選擇細組別'], ['gd-big', 'gd-sub', null, '整個大組別（須全部細組別都沒有成員）'], ['tr-big', 'tr-sub', '全部', '全部'], ['tg-big', 'tg-sub', '選擇大組別', '選擇細組別']]; // [大組別 select, 細組別 select, 大組別首項, 細組別首項]
+const GSEL = [['att-big', 'att-sub', '選擇大組別', '選擇細組別'], ['h-big', 'h-sub', '全部', '全部'], ['s-big', 's-sub', '全部', '全部'], ['ex-big', 'ex-sub', '全部', '全部'], ['rs-big', 'rs-sub', null, '全部細組別'], ['da-big', 'da-sub', null, '選擇細組別'], ['gd-big', 'gd-sub', null, '整個大組別'], ['tr-big', 'tr-sub', '全部', '全部'], ['tg-big', 'tg-sub', '選擇大組別', '選擇細組別']]; // [大組別 select, 細組別 select, 大組別首項, 細組別首項]
 const NOALL = ['gd-sub', 'tg-sub', 'rs-sub']; // 這些細組別下拉不提供「全選」（必須指定單一細組別）
 const ALL_SUB = '全選'; // 「全選」選項的值
 const TILE_KEYS = ['gender', 'age', 'remark', 'cnt']; // 點名畫面可選顯示的資料
@@ -529,6 +587,7 @@ const app = {
     catch (e) { $('d-cards').innerHTML = '<div class="kt-empty" style="grid-column:1/-1;color:var(--kt-err)">載入失敗：' + esc(e.message) + '</div>'; }
   },
   renderDash(r) {
+    this._nw = ($('d-trend').clientWidth || 600) < 520; // 記低目前圖表版面，視窗大小改變時才重繪
     const T = r.days.find(d => d.date === r.today), den = T ? T.n - T.comp : 0, pres = T ? T.present + T.late : 0;
     const none = '今日尚未有點名紀錄', card = (l, v, s, c) => `<div class="kt-stat"><span>${l}</span><b style="color:${c}">${v}</b><small>${s}</small></div>`;
     $('d-date').textContent = r.today;
@@ -539,8 +598,8 @@ const app = {
     const pts = r.days.filter(d => d.n - d.comp > 0).map(d => ({ d: d.date, v: (d.present + d.late) / (d.n - d.comp) }));
     if (pts.length < 2) $('d-trend').innerHTML = '<div class="kt-empty">資料不足（需要至少 2 個有點名的日子）</div>';
     else {
-      const W = 600, H = 200, P = 30, x = i => P + i * (W - 2 * P) / (pts.length - 1), y = v => H - P - v * (H - 2 * P);
-      $('d-trend').innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto" role="img" aria-label="出席率趨勢"><g stroke="#e5e7eb" font-size="11" fill="#6b7280">${[0, .5, 1].map(v => `<line x1="${P}" x2="${W - P}" y1="${y(v)}" y2="${y(v)}"/><text x="0" y="${y(v) + 4}" stroke="none">${v * 100}%</text>`).join('')}</g><polyline fill="none" stroke="var(--kt-navy2)" stroke-width="2.5" points="${pts.map((p, i) => x(i).toFixed(1) + ',' + y(p.v).toFixed(1)).join(' ')}"/>${pts.map((p, i) => `<circle cx="${x(i).toFixed(1)}" cy="${y(p.v).toFixed(1)}" r="4" fill="var(--kt-navy)"><title>${p.d}：${Math.round(p.v * 100)}%</title></circle>`).join('')}<text x="${P}" y="${H - 6}" font-size="11" fill="#6b7280">${pts[0].d}</text><text x="${W - P}" y="${H - 6}" font-size="11" fill="#6b7280" text-anchor="end">${pts[pts.length - 1].d}</text></svg>`;
+      const nw = ($('d-trend').clientWidth || 600) < 520, W = nw ? 340 : 600, H = nw ? 220 : 200, P = nw ? 38 : 30, FS = nw ? 14 : 11, x = i => P + i * (W - 2 * P) / (pts.length - 1), y = v => H - P - v * (H - 2 * P);
+      $('d-trend').innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto" role="img" aria-label="出席率趨勢"><g stroke="#e5e7eb" font-size="${FS}" fill="#6b7280">${[0, .5, 1].map(v => `<line x1="${P}" x2="${W - P}" y1="${y(v)}" y2="${y(v)}"/><text x="0" y="${y(v) + 4}" stroke="none">${v * 100}%</text>`).join('')}</g><polyline fill="none" stroke="var(--kt-navy2)" stroke-width="2.5" points="${pts.map((p, i) => x(i).toFixed(1) + ',' + y(p.v).toFixed(1)).join(' ')}"/>${pts.map((p, i) => `<circle cx="${x(i).toFixed(1)}" cy="${y(p.v).toFixed(1)}" r="${nw ? 5 : 4}" fill="var(--kt-navy)"><title>${p.d}：${Math.round(p.v * 100)}%</title></circle>`).join('')}<text x="${P}" y="${H - 6}" font-size="${FS}" fill="#6b7280">${pts[0].d}</text><text x="${W - P}" y="${H - 6}" font-size="${FS}" fill="#6b7280" text-anchor="end">${pts[pts.length - 1].d}</text></svg>`;
     }
     $('d-recent').innerHTML = r.recent.length ? `<table class="w-full text-left text-sm"><thead><tr class="text-gray-500"><th class="py-2">日期</th><th>組別</th><th>人數</th><th>出席</th><th>缺席</th><th></th></tr></thead><tbody>${r.recent.map(s => `<tr class="border-t"><td class="py-2 pr-2">${esc(s.date)}</td><td class="font-bold pr-2">${esc(s.group)}</td><td>${s.n}</td><td>${s.present + s.late}</td><td>${s.abs}</td><td><button class="text-blue-600 font-bold underline" data-d="${esc(s.date)}" data-c="${esc(s.group)}" onclick="app.openSession(this.dataset.d,this.dataset.c)">查看</button></td></tr>`).join('')}</tbody></table>` : '<div class="kt-empty">暫時沒有點名紀錄</div>';
   },
@@ -683,7 +742,7 @@ const app = {
       const un = upd && this.s.orig[a.AthleteID] === undefined;
       const chg = un ? ' border-dashed ring-2 ring-gray-400 ring-offset-1' : (upd && this.isChanged(a) ? ' ring-2 ring-amber-400 ring-offset-1' : '');
       const cnt = this.tf('cnt') ? (a.absCount ? '缺' + a.absCount : '') + (a.lateCount ? ' 遲' + a.lateCount : '') : '';
-      return `<button class="relative rounded-lg border-2 px-0.5 pt-4 pb-3 min-h-[72px] text-center leading-tight ${C.tile}${chg}" onclick="app.openSheet(${i})"><span class="absolute top-0.5 left-1 text-[10px] opacity-70">${esc(this.meta(a))}</span>${rem && this.tf('remark') ? '<span class="absolute top-1 right-1 w-2.5 h-2.5 rounded-full bg-yellow-400 border border-white"></span>' : ''}<span class="block font-bold text-sm break-all">${esc(a.Name)}</span><span class="block text-[11px] break-all">${un ? '未儲存·' : ''}${esc(st)}</span>${cnt ? `<span class="absolute bottom-0.5 right-1 text-[9px] opacity-80">${cnt}</span>` : ''}</button>`;
+      return `<button class="relative rounded-lg border-2 px-0.5 pt-4 pb-4 min-h-[76px] text-center leading-tight ${C.tile}${chg}" onclick="app.openSheet(${i})"><span class="absolute top-0.5 left-1 text-xs opacity-70">${esc(this.meta(a))}</span>${rem && this.tf('remark') ? '<span class="absolute top-1 right-1 w-2.5 h-2.5 rounded-full bg-yellow-400 border border-white"></span>' : ''}<span class="block font-bold text-sm break-all">${esc(a.Name)}</span><span class="block text-xs break-all">${un ? '未儲存·' : ''}${esc(st)}</span>${cnt ? `<span class="absolute bottom-0.5 right-1 text-[11px] leading-none opacity-80">${cnt}</span>` : ''}</button>`;
     };
     return `<div class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-1.5">${idx.map(tile).join('')}</div><div class="text-xs text-gray-500 mt-2">撳成員格仔改狀態。左上＝性別／年齡；右上黃點＝有成員備註；右下「缺／遲」＝累計缺席／遲到次數（顯示內容可由管理員在「管理後台」設定）</div>`;
   },
@@ -696,7 +755,7 @@ const app = {
         <div class="md:w-80 flex items-center gap-1.5 flex-wrap mb-1 md:mb-0">
           <span class="text-gray-400 text-sm">${esc(this.meta(a))}</span><span class="font-bold text-blue-800">${esc(a.Name)}</span>${un ? '<span class="text-xs px-1.5 py-0.5 rounded bg-gray-200 text-gray-600 font-bold">未儲存</span>' : ''}
           <button class="${chip}${rem ? 'bg-yellow-500 text-white' : 'bg-gray-200 text-gray-600'}" onclick="app.editRemark(${i})">📝${rem ? ' ' + esc(rem) : ' 備註'}</button>${showCnt && a.absCount ? `<button class="${chip}bg-red-100 text-red-700" onclick="app.dates(${i},'abs')">缺席${a.absCount}</button>` : ''}${showCnt && a.lateCount ? `<button class="${chip}bg-yellow-100 text-yellow-700" onclick="app.dates(${i},'late')">遲到${a.lateCount}</button>` : ''}</div>
-        <div class="flex-1 grid grid-cols-3 md:grid-cols-6 gap-1">${pb}</div></div>`;
+        <div class="flex-1 grid grid-cols-3 kt-pb6 gap-1">${pb}</div></div>`;
     }).join('');
     return `<div class="font-bold mb-1">共 ${idx.length} 人</div>` + rows;
   },
@@ -928,18 +987,18 @@ const app = {
       return c ? c * dir : (b.abs - a.abs) || (b.late - a.late) || String(a.Group).localeCompare(String(b.Group)) || a.ord - b.ord;
     });
     this.s.sumView = v;
-    $('s-head').innerHTML = '<tr>' + cols.map(key => `<th class="p-3 cursor-pointer whitespace-nowrap select-none" onclick="app.sortSum('${key}')">${lab[key]}${k === key ? (dir < 0 ? ' ▼' : ' ▲') : ''}</th>`).join('') + '</tr>';
+    $('s-head').innerHTML = '<tr>' + cols.map(key => `<th class="p-3 cursor-pointer whitespace-nowrap select-none${key === 'Name' ? ' kt-sticky' : ''}" onclick="app.sortSum('${key}')">${lab[key]}${k === key ? (dir < 0 ? ' ▼' : ' ▲') : ''}</th>`).join('') + '</tr>';
     const ds = new Set(); (this.s.sum || []).forEach(r => (r.d.all || []).forEach(x => ds.add(x.slice(0, 10))));
     $('s-info').textContent = `共 ${v.length} 人（紅色＝缺席 ≥ ${ta}；黃色＝遲到 ≥ ${tl}）` + (ds.size ? `；涵蓋 ${ds.size} 個點名日：${[...ds].sort().map(x => x.slice(5)).join('、')}` : '');
     const val = (key, r) => (key === 'rate' || key === 'prate') ? (r[key] * 100).toFixed(0) + '%' : r[key];
     const cell = (key, r) => {
       const c = key === 'abs' && r.abs >= ta ? 'bg-red-100 text-red-700 font-bold' : key === 'late' && r.late >= tl ? 'bg-yellow-100 text-yellow-700 font-bold' : key === 'Name' ? 'font-bold' : '';
-      return `<td class="p-2 ${c}">${esc(val(key, r))}</td>`;
+      return `<td class="p-2 ${c}${key === 'Name' ? ' kt-sticky' : ''}">${esc(val(key, r))}</td>`;
     };
     const dl = (t, a) => a.length ? `<div><b>${t}：</b>${esc(a.join('、'))}</div>` : '';
     $('s-body').innerHTML = v.length ? v.map((r, i) =>
       `<tr class="border-b cursor-pointer hover:bg-gray-50" onclick="app.togDetail(${i})">${cols.map(key => cell(key, r)).join('')}</tr>` +
-      `<tr id="sd-${i}" class="hidden bg-gray-50"><td colspan="${cols.length}" class="p-3 text-xs leading-6">${(dl('缺席', r.d.abs) + dl('遲到', r.d.late) + dl('病假', r.d.sick) + dl('請假', r.d.leave) + dl('公出/活動', r.d.comp) + ((r.d.all || []).length ? '<div class="mt-1"><b>逐日紀錄（' + r.d.all.length + ' 節）：</b>' + esc(r.d.all.join('　')) + '</div>' : '')) || '沒有紀錄'}</td></tr>`
+      `<tr id="sd-${i}" class="hidden bg-gray-50"><td colspan="${cols.length}" class="p-3 text-xs leading-6"><div class="kt-detail">${(dl('缺席', r.d.abs) + dl('遲到', r.d.late) + dl('病假', r.d.sick) + dl('請假', r.d.leave) + dl('公出/活動', r.d.comp) + ((r.d.all || []).length ? '<div class="mt-1"><b>逐日紀錄（' + r.d.all.length + ' 節）：</b>' + esc(r.d.all.join('　')) + '</div>' : '')) || '沒有紀錄'}</div></td></tr>`
     ).join('') : `<tr><td colspan="${cols.length}" class="p-4 text-center text-gray-500">沒有資料</td></tr>`;
   },
   exportSum() {
@@ -1117,7 +1176,7 @@ const app = {
   renderTr() {
     if (!this.s.trAll) return;
     const rows = this.trRows(), sel = this.s.trSel || {}, show = rows.slice(0, 500);
-    $('tr-body').innerHTML = show.length ? show.map(a => `<tr class="border-b"><td class="p-3"><input type="checkbox" class="w-5 h-5" ${sel[a.AthleteID] ? 'checked' : ''} onchange="app.trTog('${esc(a.AthleteID)}',this.checked)"></td><td class="p-3 font-bold">${esc(a.Name)}</td><td class="p-3">${esc(a.Gender)}</td><td class="p-3">${esc(a.Age)}</td><td class="p-3">${esc(a.Big)} / ${esc(a.Sub)}</td><td class="p-3"><button class="gb !text-red-700 !border-red-300" onclick="app.rowDel('${esc(a.AthleteID)}')">刪除</button></td></tr>`).join('') + (rows.length > 500 ? '<tr><td colspan="6" class="p-3 text-center text-gray-500">只顯示首 500 人，請用上方篩選縮窄範圍</td></tr>' : '') : '<tr><td colspan="6" class="p-4 text-center text-gray-500">沒有符合的成員</td></tr>';
+    $('tr-body').innerHTML = show.length ? show.map(a => `<tr class="border-b"><td class="p-3"><label class="kt-tap"><input type="checkbox" class="w-5 h-5" ${sel[a.AthleteID] ? 'checked' : ''} onchange="app.trTog('${esc(a.AthleteID)}',this.checked)"></label></td><td class="p-3 font-bold">${esc(a.Name)}</td><td class="p-3">${esc(a.Gender)}</td><td class="p-3">${esc(a.Age)}</td><td class="p-3">${esc(a.Big)} / ${esc(a.Sub)}</td><td class="p-3"><button class="gb !text-red-700 !border-red-300" onclick="app.rowDel('${esc(a.AthleteID)}')">刪除</button></td></tr>`).join('') + (rows.length > 500 ? '<tr><td colspan="6" class="p-3 text-center text-gray-500">只顯示首 500 人，請用上方篩選縮窄範圍</td></tr>' : '') : '<tr><td colspan="6" class="p-4 text-center text-gray-500">沒有符合的成員</td></tr>';
     this.trCount();
   },
   trSelected() { const sel = this.s.trSel || {}; return this.trRows().filter(a => sel[a.AthleteID]); }, // 只計算目前篩選結果內已剔選的人
@@ -1142,6 +1201,7 @@ const app = {
 window.addEventListener('beforeunload', e => { if (app.s.dirty || app.s.busy) { e.preventDefault(); e.returnValue = ''; } });
 if (/^https:/.test(API_URL)) fetch(API_URL, { mode: 'no-cors' }).catch(() => {}); // 開頁即叫醒後端
 ['click', 'keydown', 'touchstart'].forEach(ev => document.addEventListener(ev, () => app.idleArm(), { passive: true }));
+let _rz; window.addEventListener('resize', () => { clearTimeout(_rz); _rz = setTimeout(() => { const d = app.s.dash; if (d && !$('sec-dash').classList.contains('hidden') && (($('d-trend').clientWidth || 600) < 520) !== app._nw) app.renderDash(d.r); }, 200); }); // 直向／橫向切換時重繪趨勢圖
 app.init(); app.resume();
 </script>
 </body>
