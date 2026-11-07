@@ -124,11 +124,9 @@ thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
  #tr-table .kt-tap{margin:0}
  #tr-table td[colspan]{padding:16px!important;text-align:center;width:100%}
  #att-bar{display:contents}#att-bar.hidden{display:none}
- #att-row1{position:sticky;top:0;z-index:20;background:var(--kt-bg);flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:4px 0;height:52px}
- #att-subs{position:sticky;top:52px;z-index:19;background:var(--kt-bg);flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+ #att-row1{position:sticky;top:0;z-index:20;background:var(--kt-bg);padding:4px 0}
  #att-subs:empty{display:none}
- #att-row1::-webkit-scrollbar,#att-subs::-webkit-scrollbar{display:none}
- #att-row1>*,#att-subs>*{flex:none}#att-row1>.flex-1{display:none}#att-sum{white-space:nowrap}
+ #att-row1>.flex-1{display:none}
 }
 @media(max-width:380px){main .grid:has(input[type=date]){grid-template-columns:1fr}}
 @media(pointer:coarse){
@@ -420,7 +418,7 @@ thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
     </section>
   </main>
   <footer class="text-center text-xs text-gray-500 p-4">
-    <div>Powered by Klassuno.tech · Attendance Management System v1.2.1</div>
+    <div>Powered by Klassuno.tech · Attendance Management System v1.2.0</div>
     <div>© 2026 Klassuno.tech. All rights reserved. · <a class="underline" href="mailto:klassuno.tech@gmail.com">Contact: klassuno.tech@gmail.com</a></div>
   </footer>
   </div>
@@ -439,7 +437,7 @@ thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
 
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbwlJZYlbwsueZbeRpg72iNisKA3OgT30tbwOTdBhY3p-AEegJHbNVTJwvbgriCznP3E/exec'; // 貼上 Apps Script 網頁應用程式網址（…/exec）
-const APP_VERSION = '1.2.1'; // 須與 Code.gs 的 VERSION 一致
+const APP_VERSION = '1.2.0'; // 須與 Code.gs 的 VERSION 一致
 const BASE_TITLE = 'Klassuno Tech｜Attendance Management System';
 const STATUS = ['出席', '遲到', '病假', '請假', '缺席', '公出/活動'];
 const SC = { // on＝按鈕選中；tile＝格仔；chip＝統計標籤
