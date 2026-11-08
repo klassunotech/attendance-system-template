@@ -144,6 +144,17 @@ thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
  #att-bar,#att-row1,#att-subs{position:static}
  #submit-btn{padding-top:8px;padding-bottom:8px;font-size:1rem}
 }
+/* ===== v1.2.2 Bug Fix：手機版點名頁控制項尺寸統一（只限手機直向／手機橫向，平板及桌面不受影響） ===== */
+@media(max-width:380px){
+ #att-filter>.col-span-2{grid-column:1/-1} /* 單欄時 col-span-2 會產生隱含第二欄，令日期框／細組別被壓成約 27px、大組別撐闊 */
+}
+@media(max-width:767px),(max-width:1023px) and (max-height:500px) and (orientation:landscape){
+ #att-filter .inp,#att-date2,#att-subs .gb{ /* 日期選擇器、大組別、細組別：同一高度、字體、內距、圓角 */
+  box-sizing:border-box;height:44px;min-height:44px;max-height:44px;padding:0 12px;font-size:16px;border-radius:4px
+ }
+ #att-filter input[type=date],#att-date2{-webkit-appearance:none;appearance:none;min-width:0} /* 避免瀏覽器原生外觀令高度不一 */
+ #att-subs .gb{max-width:100%;min-width:44px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} /* 過長的組別名稱以「…」收窄，不撐高按鈕、不超出畫面 */
+}
 </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -418,7 +429,7 @@ thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
     </section>
   </main>
   <footer class="text-center text-xs text-gray-500 p-4">
-    <div>Powered by Klassuno.tech · Attendance Management System v1.2.1</div>
+    <div>Powered by Klassuno.tech · Attendance Management System v1.2.</div>
     <div>© 2026 Klassuno.tech. All rights reserved. · <a class="underline" href="mailto:klassuno.tech@gmail.com">Contact: klassuno.tech@gmail.com</a></div>
   </footer>
   </div>
@@ -437,7 +448,7 @@ thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
 
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbwlJZYlbwsueZbeRpg72iNisKA3OgT30tbwOTdBhY3p-AEegJHbNVTJwvbgriCznP3E/exec'; // 貼上 Apps Script 網頁應用程式網址（…/exec）
-const APP_VERSION = '1.2.1'; // 須與 Code.gs 的 VERSION 一致
+const APP_VERSION = '1.2.2'; // 須與 Code.gs 的 VERSION 一致
 const BASE_TITLE = 'Klassuno Tech｜Attendance Management System';
 const STATUS = ['出席', '遲到', '病假', '請假', '缺席', '公出/活動'];
 const SC = { // on＝按鈕選中；tile＝格仔；chip＝統計標籤
@@ -568,7 +579,9 @@ const app = {
     this.s = { token: '', role: '', groups: [], athletes: [], att: {}, orig: {}, hist: [], busy: false, loaded: null, dirty: false, defStatus: '缺席', tile: {} };
     document.title = BASE_TITLE;
     $('main').classList.add('hidden'); $('login').classList.remove('hidden'); $('login-msg').textContent = msg || '';
-    $('att-list').innerHTML = ''; ['att-stats', 'att-submit', 'att-note'].forEach(i => $(i).classList.add('hidden')); this.closeSheet(); this.fillGroups();
+    $('att-list').innerHTML = ''; ['att-stats', 'att-submit', 'att-note'].forEach(i => $(i).classList.add('hidden')); this.closeSheet();
+    this.clear(); $('att-date').value = this.today(); // 同步還原點名頁：重新顯示選組別表單、隱藏上一個 Session 的點名列（#att-bar／#att-subs）
+    this.fillGroups();
   },
   nav(n) {
     ['dash', 'attendance', 'athletes', 'groups', 'transfer', 'history', 'summary'].forEach(x => $('sec-' + x).classList.toggle('hidden', x !== n));
@@ -695,7 +708,7 @@ const app = {
     const has = this.s.athletes.length > 0;
     $('att-bar').classList.toggle('hidden', !has);
     $('att-filter').classList.toggle('hidden', has && !this.s.filterOpen);
-    if (!has) return;
+    if (!has) { $('att-sum').textContent = ''; $('att-subs').innerHTML = ''; return; } // 沒有名單：同時清走殘留的組別摘要及細組別按鈕
     $('att-sum').textContent = this.s.loaded ? this.s.loaded.team + '｜已儲存 ' + this.s.athletes.filter(a => this.s.orig[a.AthleteID] !== undefined).length + '/' + this.s.athletes.length : ''; $('att-date2').value = $('att-date').value;
     ['grid', 'list'].forEach(k => ['!bg-blue-600', '!text-white'].forEach(c => $('vb-' + k).classList.toggle(c, this.vw === k)));
     const tm = this.s.loaded ? this.s.loaded.team : '', i = tm.indexOf('/'), big = i < 0 ? tm : tm.slice(0, i), cur = i < 0 ? ALL_SUB : tm.slice(i + 1);
