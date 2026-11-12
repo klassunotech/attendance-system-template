@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Klassuno Tech｜Attendance Management System</title>
+<title>Klassuno Master Template｜Attendance Management System</title>
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <style type="text/tailwindcss">
@@ -155,6 +155,11 @@ thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
  #att-filter input[type=date],#att-date2{-webkit-appearance:none;appearance:none;min-width:0} /* 避免瀏覽器原生外觀令高度不一 */
  #att-subs .gb{max-width:100%;min-width:44px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} /* 過長的組別名稱以「…」收窄，不撐高按鈕、不超出畫面 */
 }
+/* Klassuno Core 1.3.0：模組停用、Logo */
+.mod-off{display:none!important}
+.kt-mark.has-logo{background:#fff;padding:3px;overflow:hidden}.kt-mark img{width:100%;height:100%;object-fit:contain;display:block}
+.kt-mbrand .kt-mark.has-logo{background:#fff;border:1px solid #e5e7eb}
+#sysinfo{padding-bottom:env(safe-area-inset-bottom)}
 </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -162,15 +167,15 @@ thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
 <!-- 登入 -->
 <div id="login" class="kt-login">
   <aside class="kt-brand">
-    <div class="kt-logo"><span class="kt-mark">K</span>Klassuno Tech</div>
-    <div><h1>Attendance Management System</h1><p>Simple, Smart &amp; Practical Management.</p></div>
+    <div class="kt-logo"><span class="kt-mark" data-brand="mark">K</span><span data-brand="name">Klassuno Tech</span></div>
+    <div><h1 data-brand="title">Attendance Management System</h1><p>Simple, Smart &amp; Practical Management.</p></div>
     <small>Class + Uno ｜ 教育及體育團隊管理的一站式平台</small>
   </aside>
   <main class="kt-panel">
     <form id="login-form" class="kt-card" autocomplete="on" onsubmit="app.login();return false">
-      <div class="kt-mbrand"><span class="kt-mark">K</span>Klassuno Tech</div>
-      <h2>登入系統</h2><p class="kt-sub">Attendance Management System 點名系統</p>
-      <div class="kt-f"><label class="kt-l" for="op-name">帳戶名稱（選填，會記入點名紀錄）</label>
+      <div class="kt-mbrand"><span class="kt-mark" data-brand="mark">K</span><span data-brand="name">Klassuno Tech</span></div>
+      <h2>登入系統</h2><p class="kt-sub" id="login-sub"><span data-brand="title">Attendance Management System</span> <span data-t="ui.001" data-t="systemName">點名系統</span></p>
+      <div class="kt-f"><label data-t="ui.002" class="kt-l" for="op-name">帳戶名稱（選填，會記入點名紀錄）</label>
         <input id="op-name" name="username" class="kt-in" maxlength="20" autocomplete="username" autocapitalize="off" placeholder="例：陳老師"></div>
       <div class="kt-f"><label class="kt-l" for="pwd">密碼</label>
         <div class="kt-pw"><input type="password" id="pwd" name="password" class="kt-in" autocomplete="current-password" placeholder="請輸入密碼"><button type="button" id="pw-eye" class="kt-eye" onclick="app.togglePwd()" aria-label="顯示或隱藏密碼">顯示</button></div></div>
@@ -178,7 +183,7 @@ thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
       <label class="kt-chk"><input type="checkbox" id="remember"> 保持登入 30 日（只限個人裝置）</label>
       <button type="submit" id="login-btn" class="kt-btn">登入</button>
       <p id="login-msg" class="kt-msg err" role="alert" aria-live="polite"></p>
-      <div class="kt-help">忘記密碼？請聯絡你的系統管理員重設。<br>不勾選「保持登入」：今日內免再輸入，閒置 2 小時會自動登出。<br>© 2026 Klassuno Tech ｜ <a href="mailto:klassuno.tech@gmail.com">klassuno.tech@gmail.com</a></div>
+      <div class="kt-help"><span data-t="ui.003">忘記密碼？請聯絡你的系統管理員重設。</span><br>不勾選「保持登入」：今日內免再輸入，閒置 2 小時會自動登出。<br>© 2026 Klassuno Tech ｜ <a href="mailto:klassuno.tech@gmail.com" data-brand="email">klassuno.tech@gmail.com</a></div>
     </form>
   </main>
 </div>
@@ -186,19 +191,19 @@ thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
 <!-- 主介面 -->
 <div id="main" class="hidden kt-app">
   <aside class="kt-side">
-    <div class="kt-sb"><span class="kt-mark">K</span>Klassuno Tech</div>
+    <div class="kt-sb"><span class="kt-mark" data-brand="mark">K</span><span data-brand="name">Klassuno Tech</span></div>
     <nav class="kt-nav" id="kt-nav">
-      <button data-n="dash" onclick="app.nav('dash')"><i>📊</i>儀表板</button>
-      <button data-n="attendance" onclick="app.nav('attendance')"><i>✅</i>點名</button>
-      <button id="nav-transfer" data-n="transfer" class="hidden" onclick="app.nav('transfer')"><i>👥</i>成員</button>
-      <button id="nav-groups" data-n="groups" class="hidden" onclick="app.nav('groups')"><i>🗂</i>組別</button>
-      <button data-n="history" onclick="app.nav('history')"><i>🕘</i>紀錄</button>
-      <button data-n="summary" onclick="app.nav('summary')"><i>📈</i>統計</button>
+      <button data-n="dash" data-mod="attendance" onclick="app.nav('dash')"><i>📊</i>儀表板</button>
+      <button data-n="attendance" data-mod="attendance" onclick="app.nav('attendance')"><i>✅</i><span data-t="ui.004">點名</span></button>
+      <button id="nav-transfer" data-n="transfer" data-mod="memberManagement" class="hidden" onclick="app.nav('transfer')"><i>👥</i><span data-t="ui.005">成員</span></button>
+      <button id="nav-groups" data-n="groups" data-mod="groupManagement" class="hidden" onclick="app.nav('groups')"><i>🗂</i><span data-t="ui.006">組別</span></button>
+      <button data-n="history" data-mod="attendance" onclick="app.nav('history')"><i>🕘</i>紀錄</button>
+      <button data-n="summary" data-mod="attendance" onclick="app.nav('summary')"><i>📈</i>統計</button>
       <button id="nav-athletes" data-n="athletes" class="hidden" onclick="app.nav('athletes')"><i>⚙️</i>設定</button>
     </nav>
   </aside>
   <div class="kt-body">
-  <header class="kt-top"><div><b id="org">點名系統</b><span id="who"></span></div><button class="gb" onclick="app.logout()">登出</button></header>
+  <header class="kt-top"><div><b data-t="ui.007" id="org">點名系統</b><span id="who"></span></div><button class="gb" onclick="app.logout()">登出</button></header>
   <div id="ver-warn" class="hidden bg-red-600 text-white text-center p-2 text-sm"></div>
   <main class="flex-grow p-3 md:p-8 w-full max-w-7xl mx-auto">
     <!-- 儀表板 -->
@@ -206,18 +211,18 @@ thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
       <div class="kt-h"><h2 class="text-xl font-bold">儀表板</h2><span id="d-date" class="text-sm text-gray-500"></span><span class="sp"></span><button class="gb" onclick="app.loadDash(true)">重新整理</button></div>
       <div id="d-cards" class="kt-cards"></div>
       <div class="kt-two">
-        <div class="card"><h3 class="font-bold mb-1">出席率趨勢（近 30 日）</h3><p class="text-xs text-gray-500 mb-2">只顯示有點名紀錄的日子；出席率＝（出席＋遲到）÷（已點名人次 − 公出/活動）</p><div id="d-trend"></div></div>
-        <div class="card"><h3 class="font-bold mb-2">最近點名紀錄</h3><div id="d-recent" class="overflow-x-auto"></div></div>
+        <div class="card"><h3 class="font-bold mb-1">出席率趨勢（近 30 日）</h3><p data-t="ui.008" class="text-xs text-gray-500 mb-2">只顯示有點名紀錄的日子；出席率＝（出席＋遲到）÷（已點名人次 − 公出/活動）</p><div id="d-trend"></div></div>
+        <div class="card"><h3 data-t="ui.009" class="font-bold mb-2">最近點名紀錄</h3><div id="d-recent" class="overflow-x-auto"></div></div>
       </div>
     </section>
 
     <!-- 點名 -->
     <section id="sec-attendance">
-      <h2 class="text-xl font-bold mb-4 border-b pb-2">點名</h2>
+      <h2 data-t="ui.010" class="text-xl font-bold mb-4 border-b pb-2">點名</h2>
       <div id="att-filter" class="card grid grid-cols-2 md:grid-cols-4 gap-3 items-end">
         <div><label class="lbl">日期</label><input type="date" id="att-date" class="inp" onchange="app.onSel()"></div>
-        <div><label class="lbl">大組別</label><select id="att-big" class="inp" onchange="app.fillSub('att-big');app.onSel()"></select></div>
-        <div><label class="lbl">細組別</label><select id="att-sub" class="inp" onchange="app.onSel()"></select></div>
+        <div><label data-t="ui.011" class="lbl">大組別</label><select id="att-big" class="inp" onchange="app.fillSub('att-big');app.onSel()"></select></div>
+        <div><label data-t="ui.012" class="lbl">細組別</label><select id="att-sub" class="inp" onchange="app.onSel()"></select></div>
         <div class="col-span-2 md:col-span-1"><button class="btn bg-blue-600 w-full text-lg" onclick="app.loadList(true)">重新載入</button></div>
       </div>
       <div id="att-note" class="hidden mb-3 p-2 bg-amber-50 border border-amber-300 rounded text-sm text-amber-800"></div>
@@ -227,7 +232,7 @@ thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
           <input type="date" id="att-date2" class="gb" onchange="app.setDate(this.value)"><button class="gb" onclick="app.setDate(app.today())">今日</button>
           <span class="flex-1"></span>
           <button id="vb-grid" class="gb" onclick="app.setView('grid')">▦ 格仔</button><button id="vb-list" class="gb" onclick="app.setView('list')">☰ 列表</button>
-          <button class="gb" onclick="app.openFilter()">更改組別</button><button class="gb !text-red-700 !border-red-300" onclick="app.clearSession()">🗑 清除本堂</button>
+          <button data-t="ui.013" class="gb" onclick="app.openFilter()">更改組別</button><button class="gb !text-red-700 !border-red-300" onclick="app.clearSession()">🗑 清除本堂</button>
         </div>
         <div id="att-subs" class="flex flex-wrap gap-1.5 pb-1"></div>
         <input id="att-q" type="search" class="inp mb-1" placeholder="🔍 搜尋姓名" autocomplete="off" oninput="app.setQ(this.value)">
@@ -235,7 +240,7 @@ thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
       </div>
       <div id="att-list"></div>
       <div id="att-submit" class="hidden sticky bottom-3 z-10 text-right">
-        <button id="submit-btn" class="btn bg-green-600 text-lg md:text-xl rounded-full px-8 py-4 w-full md:w-auto border-2 border-white" onclick="app.submit()">✅ 提交點名紀錄</button>
+        <button data-t="ui.014" id="submit-btn" class="btn bg-green-600 text-lg md:text-xl rounded-full px-8 py-4 w-full md:w-auto border-2 border-white" onclick="app.submit()">✅ 提交點名紀錄</button>
       </div>
     </section>
 
@@ -245,25 +250,25 @@ thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
 
       <div class="card border border-blue-200">
         <h3 class="font-bold mb-2">機構名稱</h3>
-        <p class="text-sm text-gray-600 mb-3">登入後顯示在畫面頂部（例：○○中學、○○補習社、○○體育會）。留空則顯示「點名系統」。</p>
+        <p data-t="ui.015" class="text-sm text-gray-600 mb-3">登入後顯示在畫面頂部（例：○○中學、○○補習社、○○體育會）。留空則顯示「點名系統」。</p>
         <div class="flex flex-col md:flex-row gap-3 md:items-end">
           <div class="md:w-80"><label class="lbl">名稱</label><input id="org-name" class="inp" maxlength="40" placeholder="例：○○中學"></div>
           <button class="btn bg-blue-600" onclick="app.saveOrg()">儲存名稱</button>
         </div>
       </div>
 
-      <div class="card border border-blue-200">
-        <h3 class="font-bold mb-2">預設點名狀態</h3>
-        <p class="text-sm text-gray-600 mb-3">新開（尚未儲存）的點名，所有成員會先顯示為此狀態。只影響日後新開的點名；已儲存的紀錄及目前畫面不會被更改。</p>
+      <div class="card border border-blue-200" data-mod="attendance">
+        <h3 data-t="ui.016" class="font-bold mb-2">預設點名狀態</h3>
+        <p data-t="ui.017" class="text-sm text-gray-600 mb-3">新開（尚未儲存）的點名，所有成員會先顯示為此狀態。只影響日後新開的點名；已儲存的紀錄及目前畫面不會被更改。</p>
         <div class="flex flex-col md:flex-row gap-3 md:items-end">
           <div><label class="lbl">預設狀態</label><select id="def-status" class="inp"><option>缺席</option><option>出席</option></select></div>
           <button class="btn bg-blue-600" onclick="app.saveDefault()">儲存設定</button>
         </div>
       </div>
 
-      <div class="card border border-blue-200">
-        <h3 class="font-bold mb-2">點名畫面顯示資料</h3>
-        <p class="text-sm text-gray-600 mb-3">揀選點名格仔／列表要顯示咩資料。所有點名員下次載入名單時生效，不影響已儲存的紀錄。</p>
+      <div class="card border border-blue-200" data-mod="attendance">
+        <h3 data-t="ui.018" class="font-bold mb-2">點名畫面顯示資料</h3>
+        <p data-t="ui.019" class="text-sm text-gray-600 mb-3">揀選點名格仔／列表要顯示咩資料。所有點名員下次載入名單時生效，不影響已儲存的紀錄。</p>
         <div class="flex flex-wrap gap-x-6 gap-y-2 mb-3">
           <label class="flex items-center gap-2"><input type="checkbox" id="tf-gender" class="w-5 h-5">性別（M/F）</label>
           <label class="flex items-center gap-2"><input type="checkbox" id="tf-age" class="w-5 h-5">年齡</label>
@@ -273,35 +278,35 @@ thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
         <button class="btn bg-blue-600" onclick="app.saveTile()">儲存顯示設定</button>
       </div>
 
-      <div class="card border border-red-200">
-        <h3 class="font-bold text-red-700 mb-2">刪除指定成員</h3>
-        <p class="text-sm text-gray-600 mb-3">只會將成員從名單移除（先備份到「Deleted_Members」工作表）；已有的歷史點名紀錄會保留。</p>
+      <div class="card border border-red-200" data-mod="memberManagement">
+        <h3 data-t="ui.020" class="font-bold text-red-700 mb-2">刪除指定成員</h3>
+        <p data-t="ui.021" class="text-sm text-gray-600 mb-3">只會將成員從名單移除（先備份到「Deleted_Members」工作表）；已有的歷史點名紀錄會保留。</p>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 items-end">
-          <div><label class="lbl">大組別</label><select id="da-big" class="inp" onchange="app.fillSub('da-big');app.loadDel()"></select></div>
-          <div><label class="lbl">細組別</label><select id="da-sub" class="inp" onchange="app.loadDel()"></select></div>
-          <div><label class="lbl">成員</label><select id="da-ath" class="inp"></select></div>
+          <div><label data-t="ui.022" class="lbl">大組別</label><select id="da-big" class="inp" onchange="app.fillSub('da-big');app.loadDel()"></select></div>
+          <div><label data-t="ui.023" class="lbl">細組別</label><select id="da-sub" class="inp" onchange="app.loadDel()"></select></div>
+          <div><label data-t="ui.024" class="lbl">成員</label><select id="da-ath" class="inp"></select></div>
           <button class="btn bg-red-600" onclick="app.delAthlete()">刪除</button>
         </div>
       </div>
-      <div class="card">
-        <h3 class="font-bold mb-2">下載點名紀錄（按日期範圍）</h3>
-        <p class="text-sm text-gray-600 mb-3">先輸入開始及結束日期，再按下載。組別留空＝全部組別。</p>
+      <div class="card" data-mod="attendance">
+        <h3 data-t="ui.025" class="font-bold mb-2">下載點名紀錄（按日期範圍）</h3>
+        <p data-t="ui.026" class="text-sm text-gray-600 mb-3">先輸入開始及結束日期，再按下載。組別留空＝全部組別。</p>
         <div class="grid grid-cols-2 sm:grid-cols-3 kt-ex5 gap-3 items-end">
           <div><label class="lbl">由</label><input type="date" id="ex-from" class="inp"></div>
           <div><label class="lbl">至</label><input type="date" id="ex-to" class="inp"></div>
-          <div><label class="lbl">大組別</label><select id="ex-big" class="inp" onchange="app.fillSub('ex-big')"></select></div>
-          <div><label class="lbl">細組別</label><select id="ex-sub" class="inp"></select></div>
+          <div><label data-t="ui.027" class="lbl">大組別</label><select id="ex-big" class="inp" onchange="app.fillSub('ex-big')"></select></div>
+          <div><label data-t="ui.028" class="lbl">細組別</label><select id="ex-sub" class="inp"></select></div>
           <button class="btn bg-green-600" onclick="app.exportYear()">下載 CSV</button>
         </div>
         <div id="ex-info" class="text-sm text-gray-600 mt-2"></div>
       </div>
-      <div class="card border border-red-200 bg-red-50">
-        <h3 class="font-bold text-red-700 mb-3">洗底（清除點名紀錄，執行前會自動備份）</h3>
+      <div class="card border border-red-200 bg-red-50" data-mod="attendance">
+        <h3 data-t="ui.029" class="font-bold text-red-700 mb-3">洗底（清除點名紀錄，執行前會自動備份）</h3>
         <div class="flex flex-col md:flex-row gap-3 md:items-end">
           <div><label class="lbl">範圍</label>
             <select id="rs-scope" class="inp" onchange="$('rs-team-wrap').classList.toggle('hidden', this.value!=='group')">
-              <option value="group">指定組別</option><option value="all">全部組別</option></select></div>
-          <div id="rs-team-wrap" class="flex gap-3"><div><label class="lbl">大組別</label><select id="rs-big" class="inp" onchange="app.fillSub('rs-big')"></select></div><div><label class="lbl">細組別</label><select id="rs-sub" class="inp"></select></div></div>
+              <option data-t="ui.030" value="group">指定組別</option><option data-t="ui.031" value="all">全部組別</option></select></div>
+          <div id="rs-team-wrap" class="flex gap-3"><div><label data-t="ui.032" class="lbl">大組別</label><select id="rs-big" class="inp" onchange="app.fillSub('rs-big')"></select></div><div><label data-t="ui.033" class="lbl">細組別</label><select id="rs-sub" class="inp"></select></div></div>
           <button class="btn bg-red-600" onclick="app.reset()">確認清除</button>
         </div>
       </div>
@@ -309,21 +314,21 @@ thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
 
     <!-- 組別管理（管理員） -->
     <section id="sec-groups" class="hidden">
-      <h2 class="text-xl font-bold mb-4 border-b pb-2">組別管理</h2>
+      <h2 data-t="ui.034" class="text-xl font-bold mb-4 border-b pb-2">組別管理</h2>
       <div class="card">
-        <h3 class="font-bold mb-2">組別管理</h3>
-        <p class="text-sm text-gray-600 mb-3">大組別＝較大的分類（例：中一級、市場部、青年隊）；細組別＝其下的分組（例：1A班、第一組、星期六班）。組別名稱不可包含「/」。</p>
+        <h3 data-t="ui.035" class="font-bold mb-2">組別管理</h3>
+        <p data-t="ui.036" class="text-sm text-gray-600 mb-3">大組別＝較大的分類（例：中一級、市場部、青年隊）；細組別＝其下的分組（例：1A班、第一組、星期六班）。組別名稱不可包含「/」。</p>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 items-end mb-5">
-          <div><label class="lbl">新增：大組別</label><input id="ag-big" class="inp" maxlength="30" placeholder="例：中一級"></div>
-          <div><label class="lbl">細組別（可留空）</label><input id="ag-sub" class="inp" maxlength="30" placeholder="例：1A班"></div>
-          <button class="btn bg-blue-600 col-span-2 md:col-span-1" onclick="app.addGroup()">新增組別</button>
+          <div><label data-t="ui.037" class="lbl">新增：大組別</label><input id="ag-big" class="inp" maxlength="30" placeholder="例：中一級"></div>
+          <div><label data-t="ui.038" class="lbl">細組別（可留空）</label><input id="ag-sub" class="inp" maxlength="30" placeholder="例：1A班"></div>
+          <button data-t="ui.039" class="btn bg-blue-600 col-span-2 md:col-span-1" onclick="app.addGroup()">新增組別</button>
         </div>
         <div class="border-t pt-4">
-          <p class="text-sm text-red-700 mb-3">刪除組別：只有沒有成員的組別才可刪除；已有的歷史點名紀錄不會被刪除。</p>
+          <p data-t="ui.040" class="text-sm text-red-700 mb-3">刪除組別：只有沒有成員的組別才可刪除；已有的歷史點名紀錄不會被刪除。</p>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-3 items-end">
-            <div><label class="lbl">大組別</label><select id="gd-big" class="inp" onchange="app.fillSub('gd-big')"></select></div>
-            <div><label class="lbl">細組別</label><select id="gd-sub" class="inp"></select></div>
-            <button class="btn bg-red-600 col-span-2 md:col-span-1" onclick="app.delGroup()">刪除組別</button>
+            <div><label data-t="ui.041" class="lbl">大組別</label><select id="gd-big" class="inp" onchange="app.fillSub('gd-big')"></select></div>
+            <div><label data-t="ui.042" class="lbl">細組別</label><select id="gd-sub" class="inp"></select></div>
+            <button data-t="ui.043" class="btn bg-red-600 col-span-2 md:col-span-1" onclick="app.delGroup()">刪除組別</button>
           </div>
         </div>
       </div>
@@ -332,47 +337,47 @@ thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
 
     <!-- 成員管理（管理員） -->
     <section id="sec-transfer" class="hidden">
-      <div class="kt-h"><h2 class="text-xl font-bold">成員管理</h2><span class="sp"></span><button class="gb" onclick="app.exportMembers()">⬇ 匯出名單 CSV</button><button class="gb" onclick="$('imp-card').scrollIntoView({behavior:'smooth'})">⬆ 匯入 CSV</button></div>
-      <p class="text-sm text-gray-600 mb-3">新增及修改成員：請使用下方 CSV 匯入（以大組別＋細組別＋姓名識別）。勾選成員可批次轉組；每行可個別刪除。</p>
+      <div class="kt-h"><h2 data-t="ui.044" class="text-xl font-bold">成員管理</h2><span class="sp"></span><button class="gb" onclick="app.exportMembers()">⬇ 匯出名單 CSV</button><button class="gb" onclick="$('imp-card').scrollIntoView({behavior:'smooth'})">⬆ 匯入 CSV</button></div>
+      <p data-t="ui.045" class="text-sm text-gray-600 mb-3">新增及修改成員：請使用下方 CSV 匯入（以大組別＋細組別＋姓名識別）。勾選成員可批次轉組；每行可個別刪除。</p>
       <div class="card grid grid-cols-2 md:grid-cols-4 gap-3 items-end">
-        <div><label class="lbl">目前大組別</label><select id="tr-big" class="inp" onchange="app.fillSub('tr-big');app.renderTr()"></select></div>
-        <div><label class="lbl">目前細組別</label><select id="tr-sub" class="inp" onchange="app.renderTr()"></select></div>
+        <div><label data-t="ui.046" class="lbl">目前大組別</label><select id="tr-big" class="inp" onchange="app.fillSub('tr-big');app.renderTr()"></select></div>
+        <div><label data-t="ui.047" class="lbl">目前細組別</label><select id="tr-sub" class="inp" onchange="app.renderTr()"></select></div>
         <div><label class="lbl">搜尋姓名</label><input id="tr-kw" class="inp" placeholder="輸入姓名" oninput="app.renderTr()"></div>
         <button class="btn bg-blue-600" onclick="app.loadTr()">重新載入名單</button>
       </div>
       <div class="card border border-blue-200">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 items-end">
-          <div><label class="lbl">轉往：大組別</label><select id="tg-big" class="inp" onchange="app.fillSub('tg-big')"></select></div>
-          <div><label class="lbl">轉往：細組別</label><select id="tg-sub" class="inp"></select></div>
+          <div><label data-t="ui.048" class="lbl">轉往：大組別</label><select id="tg-big" class="inp" onchange="app.fillSub('tg-big')"></select></div>
+          <div><label data-t="ui.049" class="lbl">轉往：細組別</label><select id="tg-sub" class="inp"></select></div>
           <div class="text-sm font-bold" id="tr-cnt">已選 0 人</div>
           <button class="btn bg-blue-600" onclick="app.doMove()">確認轉組</button>
         </div>
-        <p class="text-xs text-gray-500 mt-2">只會更改成員目前所屬的大組別及細組別。成員 ID 不變，不會刪除成員；歷史點名紀錄保留原來的組別名稱，轉組後的新點名會歸入新組別。目標組別須已存在（可在「管理後台」新增）。</p>
+        <p data-t="ui.050" class="text-xs text-gray-500 mt-2">只會更改成員目前所屬的大組別及細組別。成員 ID 不變，不會刪除成員；歷史點名紀錄保留原來的組別名稱，轉組後的新點名會歸入新組別。目標組別須已存在（可在「管理後台」新增）。</p>
       </div>
       <div class="bg-white rounded shadow overflow-x-auto mb-6"><table id="tr-table" class="w-full text-left text-sm">
-        <thead class="bg-gray-100"><tr><th class="p-3 w-10"><label class="kt-tap"><input type="checkbox" class="w-5 h-5" onchange="app.trAllTog(this.checked)"></label></th><th class="p-3">姓名</th><th class="p-3">性別</th><th class="p-3">年齡</th><th class="p-3">組別</th><th class="p-3">操作</th></tr></thead>
+        <thead class="bg-gray-100"><tr><th class="p-3 w-10"><label class="kt-tap"><input type="checkbox" class="w-5 h-5" onchange="app.trAllTog(this.checked)"></label></th><th class="p-3">姓名</th><th class="p-3">性別</th><th class="p-3">年齡</th><th data-t="ui.051" class="p-3">組別</th><th class="p-3">操作</th></tr></thead>
         <tbody id="tr-body"><tr><td colspan="6" class="p-4 text-center text-gray-500">載入中…</td></tr></tbody></table></div>
       <div class="card" id="imp-card">
-        <h3 class="font-bold mb-2">成員名單匯入 (CSV)</h3>
+        <h3 data-t="ui.052" class="font-bold mb-2">成員名單匯入 (CSV)</h3>
         <ul class="text-sm text-gray-600 list-disc list-inside mb-3">
           <li>A 欄：大組別　B 欄：細組別　C 欄：姓名　D 欄：年齡（可留空）　E 欄：性別（M/F 或 男/女，可留空；更新時留空＝保留原有性別）</li>
-          <li>系統以「大組別＋細組別＋姓名」識別成員；同一細組別內姓名不可重複；組別名稱不可包含「/」</li>
-          <li class="text-red-600 font-bold">成員如需轉組，請使用「成員轉組管理」頁面；經 CSV 改組別會被當作新成員處理</li>
+          <li data-t="ui.053">系統以「大組別＋細組別＋姓名」識別成員；同一細組別內姓名不可重複；組別名稱不可包含「/」</li>
+          <li data-t="ui.054" class="text-red-600 font-bold">成員如需轉組，請使用「成員轉組管理」頁面；經 CSV 改組別會被當作新成員處理</li>
           <li class="text-red-600 font-bold">請以 CSV UTF-8 格式儲存</li>
         </ul>
         <button class="text-blue-600 font-bold underline mb-3" onclick="app.template()">下載 CSV 範本</button>
         <input type="file" id="csv-file" accept=".csv" class="inp mb-4">
         <div class="flex flex-col md:flex-row gap-3">
-          <button class="btn bg-blue-600" onclick="app.importCsv('update')">新增／更新（不刪除任何成員）</button>
+          <button data-t="ui.055" class="btn bg-blue-600" onclick="app.importCsv('update')">新增／更新（不刪除任何成員）</button>
           <button class="btn bg-red-600" onclick="app.importCsv('replace')">完整替換（先顯示差異）</button>
         </div>
       </div>
       <div class="card">
-        <h3 class="font-bold mb-2">成員備註（另一個 CSV）</h3>
+        <h3 data-t="ui.056" class="font-bold mb-2">成員備註（另一個 CSV）</h3>
         <ul class="text-sm text-gray-600 list-disc list-inside mb-3">
           <li>欄位：大組別、細組別、姓名、備註。備註留空＝清除該成員備註</li>
-          <li>只更新名單內的成員，其他成員不變</li>
-          <li>點名時亦可直接撳成員的「📝 備註」逐個修改。有備註的成員會顯示黃點</li>
+          <li data-t="ui.057">只更新名單內的成員，其他成員不變</li>
+          <li data-t="ui.058">點名時亦可直接撳成員的「📝 備註」逐個修改。有備註的成員會顯示黃點</li>
         </ul>
         <button class="text-blue-600 font-bold underline mb-3" onclick="app.remarkTemplate()">下載範本</button>
         <input type="file" id="rm-file" accept=".csv" class="inp mb-4">
@@ -387,51 +392,61 @@ thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
       <div class="card grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 kt-f7 gap-3 items-end">
         <div><label class="lbl">由</label><input type="date" id="h-from" class="inp"></div>
         <div><label class="lbl">至</label><input type="date" id="h-to" class="inp"></div>
-        <div><label class="lbl">大組別</label><select id="h-big" class="inp" onchange="app.fillSub('h-big')"></select></div>
-        <div><label class="lbl">細組別</label><select id="h-sub" class="inp"></select></div>
+        <div><label data-t="ui.059" class="lbl">大組別</label><select id="h-big" class="inp" onchange="app.fillSub('h-big')"></select></div>
+        <div><label data-t="ui.060" class="lbl">細組別</label><select id="h-sub" class="inp"></select></div>
         <div><label class="lbl">姓名</label><input id="h-kw" class="inp" placeholder="例：陳大文"></div>
         <div><label class="lbl">狀態</label><select id="h-status" class="inp"><option value="">全部</option><option>出席</option><option>遲到</option><option>病假</option><option>請假</option><option>缺席</option><option>公出/活動</option></select></div>
         <button class="btn bg-blue-600" onclick="app.loadHist()">搜尋</button>
       </div>
       <div class="flex gap-3 mb-3 items-center"><button class="btn bg-green-600" onclick="app.exportHist()">匯出 CSV（明細）</button><span id="h-info" class="text-sm text-gray-600"></span></div>
-      <h3 class="font-bold mb-2">點名統計（按目前篩選結果）</h3>
+      <h3 data-t="ui.061" class="font-bold mb-2">點名統計（按目前篩選結果）</h3>
       <div class="bg-white rounded shadow overflow-x-auto mb-6"><table id="h-sum-table" class="w-full text-left text-sm">
-        <thead class="bg-gray-100"><tr><th class="p-2">日期</th><th class="p-2">組別</th><th class="p-2">人數</th><th class="p-2">出席</th><th class="p-2">遲到</th><th class="p-2">病假</th><th class="p-2">請假</th><th class="p-2">缺席</th><th class="p-2">公出/活動</th><th class="p-2">操作</th></tr></thead>
+        <thead class="bg-gray-100"><tr><th class="p-2">日期</th><th data-t="ui.062" class="p-2">組別</th><th class="p-2">人數</th><th class="p-2">出席</th><th class="p-2">遲到</th><th class="p-2">病假</th><th class="p-2">請假</th><th class="p-2">缺席</th><th class="p-2">公出/活動</th><th class="p-2">操作</th></tr></thead>
         <tbody id="h-sum"><tr><td colspan="10" class="p-4 text-center text-gray-500">請按「搜尋」</td></tr></tbody></table></div>
       <h3 class="font-bold mb-2">明細</h3>
       <div class="bg-white rounded shadow overflow-x-auto"><table class="w-full text-left text-sm">
-        <thead class="bg-gray-100"><tr><th class="p-3">日期</th><th class="p-3">組別</th><th class="p-3">姓名</th><th class="p-3">狀態</th></tr></thead>
+        <thead class="bg-gray-100"><tr><th class="p-3">日期</th><th data-t="ui.063" class="p-3">組別</th><th class="p-3">姓名</th><th class="p-3">狀態</th></tr></thead>
         <tbody id="h-body"></tbody></table></div>
     </section>
 
     <!-- 成員統計 -->
     <section id="sec-summary" class="hidden">
-      <h2 class="text-xl font-bold mb-4 border-b pb-2">成員統計（出席／遲到／病假／請假／缺席／公出/活動）</h2>
+      <h2 data-t="ui.064" class="text-xl font-bold mb-4 border-b pb-2">成員統計（出席／遲到／病假／請假／缺席／公出/活動）</h2>
       <div class="card grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 kt-f7 gap-3 items-end">
         <div><label class="lbl">由</label><input type="date" id="s-from" class="inp"></div>
         <div><label class="lbl">至</label><input type="date" id="s-to" class="inp"></div>
-        <div><label class="lbl">大組別</label><select id="s-big" class="inp" onchange="app.fillSub('s-big')"></select></div>
-        <div><label class="lbl">細組別</label><select id="s-sub" class="inp"></select></div>
+        <div><label data-t="ui.065" class="lbl">大組別</label><select id="s-big" class="inp" onchange="app.fillSub('s-big')"></select></div>
+        <div><label data-t="ui.066" class="lbl">細組別</label><select id="s-sub" class="inp"></select></div>
         <div><label class="lbl">缺席警示線 ≥</label><input type="number" id="s-tabs" class="inp" value="3" min="1" onchange="app.renderSum()"></div>
         <div><label class="lbl">遲到警示線 ≥</label><input type="number" id="s-tlate" class="inp" value="3" min="1" onchange="app.renderSum()"></div>
         <button class="btn bg-blue-600" onclick="app.loadSum()">統計</button>
       </div>
       <details class="card"><summary class="font-bold cursor-pointer py-1">欄位順序／顯示設定（可自行調整）</summary><div id="s-cols" class="mt-2"></div></details>
       <div class="flex flex-wrap gap-3 mb-3 items-center">
-        <label class="text-sm"><input type="checkbox" id="s-flag" onchange="app.renderSum()"> 只顯示達警示線的成員</label>
+        <label class="text-sm"><input type="checkbox" id="s-flag" onchange="app.renderSum()"> <span data-t="ui.067">只顯示達警示線的成員</span></label>
         <button class="btn bg-green-600" onclick="app.exportSum()">匯出 CSV</button>
         <span id="s-info" class="text-sm text-gray-600"></span>
       </div>
       <div class="bg-white rounded shadow overflow-x-auto"><table class="w-full text-left text-sm">
         <thead class="bg-gray-100" id="s-head"></thead>
         <tbody id="s-body"><tr><td colspan="14" class="p-4 text-center text-gray-500">請按「統計」</td></tr></tbody></table></div>
-      <p class="text-xs text-gray-500 mt-2">點擊表頭可排序；點擊成員可展開日期。出席率 =（出席＋遲到）÷（總節數 − 公出/活動）；缺席率 = 缺席 ÷（總節數 − 公出/活動）；病假、請假不計入缺席，但計入分母，請自行判斷。</p>
+      <p data-t="ui.068" class="text-xs text-gray-500 mt-2">點擊表頭可排序；點擊成員可展開日期。出席率 =（出席＋遲到）÷（總節數 − 公出/活動）；缺席率 = 缺席 ÷（總節數 − 公出/活動）；病假、請假不計入缺席，但計入分母，請自行判斷。</p>
     </section>
+    <section id="sec-nomod" class="hidden"><div class="card text-center text-gray-600 p-8">此產品目前沒有為你的帳戶啟用任何功能，請向系統<span data-t="ui.069" data-t="admin">管理員</span>查詢。</div></section>
   </main>
   <footer class="text-center text-xs text-gray-500 p-4">
-    <div>Powered by Klassuno.tech · Attendance Management System v1.2.</div>
-    <div>© 2026 Klassuno.tech. All rights reserved. · <a class="underline" href="mailto:klassuno.tech@gmail.com">Contact: klassuno.tech@gmail.com</a></div>
+    <div>Powered by Klassuno.tech · <span data-brand="title">Attendance Management System</span> · <a href="#" class="underline" id="ft-info" onclick="app.sysInfo();return false">系統資訊</a></div>
+    <div>© 2026 Klassuno.tech. All rights reserved. · <a class="underline" href="mailto:klassuno.tech@gmail.com" data-brand="email" data-prefix="Contact: ">Contact: klassuno.tech@gmail.com</a></div>
   </footer>
+  </div>
+</div>
+
+<!-- 系統資訊（唯讀） -->
+<div id="sysinfo" class="hidden fixed inset-0 z-50 flex items-end md:items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="si-title">
+  <div class="absolute inset-0 bg-black/40" onclick="app.closeSysInfo()"></div>
+  <div class="relative bg-white rounded-t-2xl md:rounded-2xl p-4 md:p-6 shadow-2xl w-full md:max-w-lg max-h-[85vh] overflow-y-auto">
+    <div class="flex items-center justify-between mb-2"><h3 id="si-title" class="font-bold text-lg">系統資訊</h3><button class="gb" onclick="app.closeSysInfo()">關閉</button></div>
+    <div id="si-body"></div>
   </div>
 </div>
 
@@ -446,10 +461,94 @@ thead .kt-sticky{background:#f3f4f6}tr:hover>.kt-sticky{background:#f9fafb}
   <div class="bg-white p-8 rounded-xl text-center"><div class="loader rounded-full border-4 border-gray-200 h-12 w-12 mb-3 mx-auto"></div><div class="font-bold">與伺服器同步中…</div></div>
 </div>
 
+<script src="product-config.js"></script>
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbwlJZYlbwsueZbeRpg72iNisKA3OgT30tbwOTdBhY3p-AEegJHbNVTJwvbgriCznP3E/exec'; // 貼上 Apps Script 網頁應用程式網址（…/exec）
-const APP_VERSION = '1.2.2'; // 須與 Code.gs 的 VERSION 一致
-const BASE_TITLE = 'Klassuno Tech｜Attendance Management System';
+// ===== Klassuno Core 前端：產品設定 / 版本 / 用字（Master 預設值；後端設定載入失敗時完全使用這些，系統不會白屏）=====
+const LEGACY_API_URL = 'https://script.google.com/macros/s/AKfycbwlJZYlbwsueZbeRpg72iNisKA3OgT30tbwOTdBhY3p-AEegJHbNVTJwvbgriCznP3E/exec'; // 過渡備用：只在 product-config.js 不存在或無效時使用（Phase 5 再評估移除）
+const API_URL = (() => { try { const u = window.KT_PRODUCT && window.KT_PRODUCT.API_URL; if (typeof u === 'string' && /^https:/.test(u)) return u; } catch (_) {} return LEGACY_API_URL; })(); // 優先讀 product-config.js
+const CLIENT_CORE = '1.3.0'; // 本網頁（前端）的 Klassuno Core 版本；與後端 CORE_VERSION、Product Version 各自獨立
+const hasOwn = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+const sv = v => { const m = /^(\d+)\.(\d+)\.(\d+)$/.exec(String(v == null ? '' : v).trim()); return m ? [+m[1], +m[2], +m[3]] : null; }; // SemVer：只接受 MAJOR.MINOR.PATCH，逐段數字比較
+function svCmp(a, b) { const x = sv(a), y = sv(b); if (!x || !y) return null; for (let i = 0; i < 3; i++) if (x[i] !== y[i]) return x[i] < y[i] ? -1 : 1; return 0; }
+const DEFAULT_BRAND = { productName: 'Klassuno Master Template', systemTitle: 'Attendance Management System', logoPath: '', themeColor: '#0f2a5c', themeColor2: '', contactEmail: 'klassuno.tech@gmail.com' };
+const DEFAULT_TERMS = { member: '成員', group: '組別', bigGroup: '大{group}', subGroup: '細{group}', attendance: '點名', operator: '{attendance}員', admin: '管理員', systemName: '{attendance}系統' };
+const DEFAULT_UI = {"ui.001": "{systemName}","ui.002": "帳戶名稱（選填，會記入{attendance}紀錄）","ui.003": "忘記密碼？請聯絡你的系統{admin}重設。","ui.004": "{attendance}","ui.005": "{member}","ui.006": "{group}","ui.007": "{systemName}","ui.008": "只顯示有{attendance}紀錄的日子；出席率＝（出席＋遲到）÷（已{attendance}人次 − 公出/活動）","ui.009": "最近{attendance}紀錄","ui.010": "{attendance}","ui.011": "{bigGroup}","ui.012": "{subGroup}","ui.013": "更改{group}","ui.014": "✅ 提交{attendance}紀錄","ui.015": "登入後顯示在畫面頂部（例：○○中學、○○補習社、○○體育會）。留空則顯示「{systemName}」。","ui.016": "預設{attendance}狀態","ui.017": "新開（尚未儲存）的{attendance}，所有{member}會先顯示為此狀態。只影響日後新開的{attendance}；已儲存的紀錄及目前畫面不會被更改。","ui.018": "{attendance}畫面顯示資料","ui.019": "揀選{attendance}格仔／列表要顯示咩資料。所有{operator}下次載入名單時生效，不影響已儲存的紀錄。","ui.020": "刪除指定{member}","ui.021": "只會將{member}從名單移除（先備份到「Deleted_Members」工作表）；已有的歷史{attendance}紀錄會保留。","ui.022": "{bigGroup}","ui.023": "{subGroup}","ui.024": "{member}","ui.025": "下載{attendance}紀錄（按日期範圍）","ui.026": "先輸入開始及結束日期，再按下載。{group}留空＝全部{group}。","ui.027": "{bigGroup}","ui.028": "{subGroup}","ui.029": "洗底（清除{attendance}紀錄，執行前會自動備份）","ui.030": "指定{group}","ui.031": "全部{group}","ui.032": "{bigGroup}","ui.033": "{subGroup}","ui.034": "{group}管理","ui.035": "{group}管理","ui.036": "{bigGroup}＝較大的分類（例：中一級、市場部、青年隊）；{subGroup}＝其下的分組（例：1A班、第一組、星期六班）。{group}名稱不可包含「/」。","ui.037": "新增：{bigGroup}","ui.038": "{subGroup}（可留空）","ui.039": "新增{group}","ui.040": "刪除{group}：只有沒有{member}的{group}才可刪除；已有的歷史{attendance}紀錄不會被刪除。","ui.041": "{bigGroup}","ui.042": "{subGroup}","ui.043": "刪除{group}","ui.044": "{member}管理","ui.045": "新增及修改{member}：請使用下方 CSV 匯入（以{bigGroup}＋{subGroup}＋姓名識別）。勾選{member}可批次轉組；每行可個別刪除。","ui.046": "目前{bigGroup}","ui.047": "目前{subGroup}","ui.048": "轉往：{bigGroup}","ui.049": "轉往：{subGroup}","ui.050": "只會更改{member}目前所屬的{bigGroup}及{subGroup}。{member} ID 不變，不會刪除{member}；歷史{attendance}紀錄保留原來的{group}名稱，轉組後的新{attendance}會歸入新{group}。目標{group}須已存在（可在「管理後台」新增）。","ui.051": "{group}","ui.052": "{member}名單匯入 (CSV)","ui.053": "系統以「{bigGroup}＋{subGroup}＋姓名」識別{member}；同一{subGroup}內姓名不可重複；{group}名稱不可包含「/」","ui.054": "{member}如需轉組，請使用「{member}轉組管理」頁面；經 CSV 改{group}會被當作新{member}處理","ui.055": "新增／更新（不刪除任何{member}）","ui.056": "{member}備註（另一個 CSV）","ui.057": "只更新名單內的{member}，其他{member}不變","ui.058": "{attendance}時亦可直接撳{member}的「📝 備註」逐個修改。有備註的{member}會顯示黃點","ui.059": "{bigGroup}","ui.060": "{subGroup}","ui.061": "{attendance}統計（按目前篩選結果）","ui.062": "{group}","ui.063": "{group}","ui.064": "{member}統計（出席／遲到／病假／請假／缺席／公出/活動）","ui.065": "{bigGroup}","ui.066": "{subGroup}","ui.067": "只顯示達警示線的{member}","ui.068": "點擊表頭可排序；點擊{member}可展開日期。出席率 =（出席＋遲到）÷（總節數 − 公出/活動）；缺席率 = 缺席 ÷（總節數 − 公出/活動）；病假、請假不計入缺席，但計入分母，請自行判斷。","ui.069": "{admin}"}; // 靜態文字（data-t）的 Master 預設文字，{key} 會代入用字
+let CFG = { brand: Object.assign({}, DEFAULT_BRAND), terms: {} }; // 目前生效的公開設定（只供顯示；絕不用作任何權限判斷）
+
+function Tq(k, v) { // 純文字；找不到 key 回傳 null
+  let s;
+  if (hasOwn(CFG.terms, k)) s = CFG.terms[k]; else if (hasOwn(DEFAULT_TERMS, k)) s = DEFAULT_TERMS[k]; else if (hasOwn(DEFAULT_UI, k)) s = DEFAULT_UI[k]; else return null;
+  for (let i = 0; i < 4 && /\{\w+\}/.test(s); i++) s = s.replace(/\{(\w+)\}/g, (m, n) => (v && hasOwn(v, n)) ? String(v[n]) : hasOwn(CFG.terms, n) ? CFG.terms[n] : hasOwn(DEFAULT_TERMS, n) ? DEFAULT_TERMS[n] : m);
+  return s;
+}
+function T(k, v) { const s = Tq(k, v); return s === null ? String(k) : s; } // 純文字（alert／confirm／textContent）；找不到 key 時退回 key 本身，不會變空白
+const escH = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]); // 自備跳脫（不依賴後面才定義的 esc，避免載入順序問題）
+function TH(k, v) { return escH(T(k, v)); } // HTML 脈絡（innerHTML／模板字串）：一律跳脫
+function safeLogo(p) { p = String(p || ''); return /^[A-Za-z0-9_][A-Za-z0-9_.\/-]{0,98}$/.test(p) && p.indexOf('..') < 0 && !/^[a-z]+:/i.test(p); }
+function cleanCfg(c) { // 驗證後端／快取的公開設定；任何無效欄位退回 Master 預設
+  const b = Object.assign({}, DEFAULT_BRAND), t = {};
+  if (c && typeof c === 'object') {
+    const s = (v, n) => typeof v === 'string' ? v.trim().slice(0, n) : '';
+    if (s(c.productName, 60)) b.productName = s(c.productName, 60);
+    if (s(c.systemTitle, 80)) b.systemTitle = s(c.systemTitle, 80);
+    if (/^#[0-9a-fA-F]{6}$/.test(c.themeColor || '')) b.themeColor = c.themeColor;
+    if (/^#[0-9a-fA-F]{6}$/.test(c.themeColor2 || '')) b.themeColor2 = c.themeColor2;
+    if (safeLogo(c.logoPath)) b.logoPath = c.logoPath;
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c.contactEmail || '')) b.contactEmail = c.contactEmail;
+    const tm = c.terminology;
+    if (tm && typeof tm === 'object') Object.keys(tm).forEach(k => { if ((hasOwn(DEFAULT_TERMS, k) || hasOwn(DEFAULT_UI, k)) && typeof tm[k] === 'string' && tm[k].trim()) t[k] = tm[k].trim().slice(0, 60); });
+  }
+  return { brand: b, terms: t };
+}
+const cfgWire = () => Object.assign({}, CFG.brand, { terminology: CFG.terms });
+function cfgHash(s) { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); }
+const CFG_KEY = 'kt_cfg1_' + cfgHash(API_URL); // 快取鍵含網址雜湊：同網域下多個產品互不覆蓋
+function loadCache() { try { const r = JSON.parse(localStorage.getItem(CFG_KEY)); if (r && r.v === 1 && r.c) CFG = cleanCfg(r.c); } catch (_) {} }
+function saveCache() { try { localStorage.setItem(CFG_KEY, JSON.stringify({ v: 1, c: cfgWire() })); } catch (_) {} }
+loadCache();
+
+const baseTitle = () => CFG.brand.productName + '｜' + CFG.brand.systemTitle;
+const lumOf = h => { const c = [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16) / 255).map(v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
+const contrastW = h => 1.05 / (lumOf(h) + 0.05); // 與白字的對比度
+const mixW = (h, p) => '#' + [1, 3, 5].map(i => Math.round(parseInt(h.slice(i, i + 2), 16) * (1 - p) + 255 * p).toString(16).padStart(2, '0')).join('');
+function applyTheme() {
+  let a = CFG.brand.themeColor, b = CFG.brand.themeColor2;
+  if (contrastW(a) < 3) { a = DEFAULT_BRAND.themeColor; b = ''; } // 主色太淺、白字看不清 → 退回預設
+  if (!b) b = a.toLowerCase() === DEFAULT_BRAND.themeColor ? '#1b3f86' : mixW(a, 0.18);
+  if (contrastW(b) < 3) b = a;
+  const st = document.documentElement.style; st.setProperty('--kt-navy', a); st.setProperty('--kt-navy2', b);
+}
+function setMark(e) { // Logo：載入成功才替換；失敗或沒有設定＝顯示產品名稱首字母
+  const ch = (CFG.brand.productName || 'K').trim().charAt(0).toUpperCase() || 'K', id = e._lg = (e._lg || 0) + 1;
+  e.textContent = ch; e.classList.remove('has-logo');
+  if (!CFG.brand.logoPath) return;
+  const im = new Image(); im.alt = '';
+  im.onload = () => { if (e._lg !== id) return; e.textContent = ''; e.classList.add('has-logo'); e.appendChild(im); }; // 設定已再更新就放棄這次結果
+  im.onerror = () => {}; im.src = CFG.brand.logoPath;
+}
+function applyBrand() {
+  const b = CFG.brand;
+  document.querySelectorAll('[data-brand="name"]').forEach(e => { e.textContent = b.productName; });
+  document.querySelectorAll('[data-brand="title"]').forEach(e => { e.textContent = b.systemTitle; });
+  document.querySelectorAll('[data-brand="email"]').forEach(e => { e.textContent = (e.dataset.prefix || '') + b.contactEmail; e.setAttribute('href', 'mailto:' + b.contactEmail); });
+  document.querySelectorAll('[data-brand="mark"]').forEach(setMark);
+  if (typeof app !== 'undefined' && !app.s.token) document.title = baseTitle();
+}
+function applyTerms(root) { (root || document).querySelectorAll('[data-t]').forEach(e => { const s = Tq(e.dataset.t); if (s !== null && e.textContent !== s) e.textContent = s; }); }
+function renderAll() {
+  applyTheme(); applyBrand(); applyTerms(); mkSUMDEF(); mkGSEL();
+  if (typeof app !== 'undefined') { try { app.fillGroups(); app.refreshTitle(); app.renderBanner(); } catch (_) {} }
+}
+function applyConfig(c, save) { const n = cleanCfg(c); if (JSON.stringify(n) === JSON.stringify(CFG)) return false; CFG = n; if (save) saveCache(); renderAll(); return true; }
+async function fetchCfg() { // 開頁即叫醒後端並取得公開設定；任何失敗都只退回快取／預設，不影響使用
+  if (!/^https:/.test(API_URL)) return;
+  const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 10000);
+  try {
+    const r = await (await fetch(API_URL, { signal: ctl.signal })).json();
+    if (r && r.ok === true) { app.rt.beVer = typeof r.version === 'string' ? r.version : ''; if (r.config && typeof r.config === 'object') applyConfig(r.config, true); }
+  } catch (e) { console.warn('[config] 公開設定載入失敗，使用已快取／預設設定：', e && e.message); }
+  finally { clearTimeout(t); }
+}
 const STATUS = ['出席', '遲到', '病假', '請假', '缺席', '公出/活動'];
 const SC = { // on＝按鈕選中；tile＝格仔；chip＝統計標籤
   '出席': { ico: '🟢', on: '!bg-green-500 !text-white !border-green-600', tile: 'bg-green-100 border-green-400 text-green-900', chip: 'bg-green-100 border-green-300 text-green-800' },
@@ -459,8 +558,9 @@ const SC = { // on＝按鈕選中；tile＝格仔；chip＝統計標籤
   '缺席': { ico: '🔴', on: '!bg-red-500 !text-white !border-red-600', tile: 'bg-red-500 border-red-600 text-white', chip: 'bg-red-100 border-red-300 text-red-800' },
   '公出/活動': { ico: '🔵', on: '!bg-blue-500 !text-white !border-blue-600', tile: 'bg-blue-500 border-blue-600 text-white', chip: 'bg-blue-100 border-blue-300 text-blue-800' }
 };
-const SUMDEF = [['Group', '組別'], ['Name', '姓名'], ['Age', '年齡'], ['total', '總節數'], ['present', '出席'], ['late', '遲到'], ['sick', '病假'], ['leave', '請假'], ['abs', '缺席'], ['comp', '公出/活動'], ['prate', '出席率'], ['rate', '缺席率']];
-const GSEL = [['att-big', 'att-sub', '選擇大組別', '選擇細組別'], ['h-big', 'h-sub', '全部', '全部'], ['s-big', 's-sub', '全部', '全部'], ['ex-big', 'ex-sub', '全部', '全部'], ['rs-big', 'rs-sub', null, '全部細組別'], ['da-big', 'da-sub', null, '選擇細組別'], ['gd-big', 'gd-sub', null, '整個大組別'], ['tr-big', 'tr-sub', '全部', '全部'], ['tg-big', 'tg-sub', '選擇大組別', '選擇細組別']]; // [大組別 select, 細組別 select, 大組別首項, 細組別首項]
+let SUMDEF; const mkSUMDEF = () => SUMDEF = [['Group', TH('group')], ['Name', '姓名'], ['Age', '年齡'], ['total', '總節數'], ['present', '出席'], ['late', '遲到'], ['sick', '病假'], ['leave', '請假'], ['abs', '缺席'], ['comp', '公出/活動'], ['prate', '出席率'], ['rate', '缺席率']];
+let GSEL; const mkGSEL = () => GSEL = [['att-big', 'att-sub', ('選擇' + TH('bigGroup')), ('選擇' + TH('subGroup'))], ['h-big', 'h-sub', '全部', '全部'], ['s-big', 's-sub', '全部', '全部'], ['ex-big', 'ex-sub', '全部', '全部'], ['rs-big', 'rs-sub', null, ('全部' + TH('subGroup'))], ['da-big', 'da-sub', null, ('選擇' + TH('subGroup'))], ['gd-big', 'gd-sub', null, ('整個' + TH('bigGroup'))], ['tr-big', 'tr-sub', '全部', '全部'], ['tg-big', 'tg-sub', ('選擇' + TH('bigGroup')), ('選擇' + TH('subGroup'))]]; // [大組別 select, 細組別 select, 大組別首項, 細組別首項]
+mkSUMDEF(); mkGSEL();
 const NOALL = ['gd-sub', 'tg-sub', 'rs-sub']; // 這些細組別下拉不提供「全選」（必須指定單一細組別）
 const ALL_SUB = '全選'; // 「全選」選項的值
 const TILE_KEYS = ['gender', 'age', 'remark', 'cnt']; // 點名畫面可選顯示的資料
@@ -496,7 +596,7 @@ const app = {
     const row = GSEL.find(x => x[0] === bigId), sel = $(row[1]), v = sel.value,
           e = (this.s.groups || []).find(x => x.g === $(bigId).value), subs = e ? e.subs : [];
     const allOpt = (!NOALL.includes(row[1]) && subs.length > 1)
-      ? `<option value="${ALL_SUB}">${ALL_SUB}（全部細組別）</option>` : '';
+      ? `<option value="${ALL_SUB}">${ALL_SUB}（全部${TH('subGroup')}）</option>` : '';
     sel.innerHTML = (row[3] != null ? `<option value="">${row[3]}</option>` : '')
       + allOpt + subs.map(x => `<option>${esc(x)}</option>`).join('');
     if (v === ALL_SUB && allOpt) sel.value = ALL_SUB;
@@ -516,20 +616,20 @@ const app = {
   async refreshGroups() { try { this.s.groups = await this.api('getGroups', {}, { silent: true }); this.fillGroups(); } catch (_) {} },
 
   enter(u) {
-    this.s.role = u.role; $('who').textContent = '（' + u.email + '）';
+    this.s.role = u.role; this.rt = {}; { const nm = String(u.email || ''), ix = nm.indexOf('：'); this.s.whoSuf = ix >= 0 ? nm.slice(ix) : ''; } this.refreshWho(); // 角色名稱由 role 對應用字；Sheet 內的固定標籤不變
+    this.s.sys = u; if (u.config) applyConfig(u.config, true); // 以後端為準；快取只供顯示
     this.s.groups = u.groups || []; this.s.defStatus = u.defaultStatus === '出席' ? '出席' : '缺席'; $('def-status').value = this.s.defStatus;
     this.s.tile = u.tileFields || {}; this.tileUI();
     this.setOrg(u.orgName || '');
     this.fillGroups();
-    const vw = $('ver-warn');
-    if (u.version !== APP_VERSION) { vw.textContent = '⚠️ 後端版本（' + (u.version || '舊版') + '）與網頁（' + APP_VERSION + '）不一致，部分功能可能出錯。請把最新 Code.gs 重新部署為「新版本」。'; vw.classList.remove('hidden'); } else vw.classList.add('hidden');
+    this.applyModules(u); this.renderBanner();
     ['nav-athletes', 'nav-transfer', 'nav-groups'].forEach(i => $(i).classList.toggle('hidden', u.role !== 'admin'));
-    $('pwd').value = ''; $('login').classList.add('hidden'); this.idleArm(); $('main').classList.remove('hidden'); this.nav(window.matchMedia('(min-width:1024px)').matches ? 'dash' : 'attendance');
+    $('pwd').value = ''; $('login').classList.add('hidden'); this.idleArm(); $('main').classList.remove('hidden'); this.nav(this.landing());
   },
   setOrg(n) { // 機構名稱：顯示在頂部列及瀏覽器標題
-    n = String(n || '').trim();
-    $('org').textContent = n || '點名系統'; $('org-name').value = n;
-    document.title = n ? n + '｜Klassuno.tech 點名系統' : BASE_TITLE;
+    n = String(n || '').trim(); this.s.org = n;
+    $('org').textContent = n || T('systemName'); $('org-name').value = n;
+    document.title = n ? n + '｜' + CFG.brand.productName + ' ' + T('systemName') : baseTitle();
   },
   async saveOrg() {
     try {
@@ -547,7 +647,7 @@ const app = {
     if (this.s.loggingIn) return; // 防止重複提交
     const pwd = $('pwd').value, msg = $('login-msg'), btn = $('login-btn');
     const say = (t, ok) => { msg.textContent = t; msg.className = 'kt-msg ' + (ok ? 'ok' : 'err'); };
-    if (!/^https:/.test(API_URL)) return say('系統尚未完成設定，請聯絡管理員。');
+    if (!/^https:/.test(API_URL)) return say(('系統尚未完成設定，請聯絡' + T('admin') + '。'));
     if (!pwd) return say('請輸入密碼');
     const op = $('op-name').value.trim().slice(0, 20), rem = $('remember').checked;
     this.s.op = op; this.s.loggingIn = true; btn.disabled = true; btn.textContent = '登入中…'; say('');
@@ -577,14 +677,16 @@ const app = {
     if (this.s.token && !noApi) this.api('logout', {}, { silent: true }).catch(() => {}); // 通知後端作廢憑證
     try { localStorage.removeItem('ath_tk'); } catch (_) {}
     this.s = { token: '', role: '', groups: [], athletes: [], att: {}, orig: {}, hist: [], busy: false, loaded: null, dirty: false, defStatus: '缺席', tile: {} };
-    document.title = BASE_TITLE;
+    document.title = baseTitle(); this.rt = {}; { const vb = $('ver-warn'); if (vb) vb.classList.add('hidden'); }
     $('main').classList.add('hidden'); $('login').classList.remove('hidden'); $('login-msg').textContent = msg || '';
     $('att-list').innerHTML = ''; ['att-stats', 'att-submit', 'att-note'].forEach(i => $(i).classList.add('hidden')); this.closeSheet();
     this.clear(); $('att-date').value = this.today(); // 同步還原點名頁：重新顯示選組別表單、隱藏上一個 Session 的點名列（#att-bar／#att-subs）
     this.fillGroups();
   },
   nav(n) {
-    ['dash', 'attendance', 'athletes', 'groups', 'transfer', 'history', 'summary'].forEach(x => $('sec-' + x).classList.toggle('hidden', x !== n));
+    const need = { dash: 'attendance', attendance: 'attendance', history: 'attendance', summary: 'attendance', transfer: 'memberManagement', groups: 'groupManagement' }[n];
+    if (need && this.s.mods && this.s.mods[need] === false) n = this.landing(); // 模組停用：只負責 UI；後端另有強制檢查
+    ['dash', 'attendance', 'athletes', 'groups', 'transfer', 'history', 'summary', 'nomod'].forEach(x => $('sec-' + x).classList.toggle('hidden', x !== n));
     document.querySelectorAll('#kt-nav button').forEach(b => b.classList.toggle('on', b.dataset.n === n));
     if (n === 'transfer' && !this.s.trAll) this.loadTr();
     if (n === 'dash') this.loadDash();
@@ -599,29 +701,29 @@ const app = {
   },
   renderDash(r) {
     this._nw = ($('d-trend').clientWidth || 600) < 520; // 記低目前圖表版面，視窗大小改變時才重繪
-    const T = r.days.find(d => d.date === r.today), den = T ? T.n - T.comp : 0, pres = T ? T.present + T.late : 0;
-    const none = '今日尚未有點名紀錄', card = (l, v, s, c) => `<div class="kt-stat"><span>${l}</span><b style="color:${c}">${v}</b><small>${s}</small></div>`;
+    const TD = r.days.find(d => d.date === r.today), den = TD ? TD.n - TD.comp : 0, pres = TD ? TD.present + TD.late : 0;
+    const none = ('今日尚未有' + TH('attendance') + '紀錄'), card = (l, v, s, c) => `<div class="kt-stat"><span>${l}</span><b style="color:${c}">${v}</b><small>${s}</small></div>`;
     $('d-date').textContent = r.today;
-    $('d-cards').innerHTML = card('總成員', r.totalMembers, '名單內現有成員', 'var(--kt-navy)') +
-      card('今日出席', T ? pres : '—', T ? '含遲到 ' + T.late + ' 人' : none, 'var(--kt-ok)') +
-      card('今日缺席', T ? T.abs : '—', T ? '今日已點名 ' + T.n + ' 人' : none, 'var(--kt-err)') +
-      card('今日出席率', den > 0 ? Math.round(pres / den * 100) + '%' : '—', den > 0 ? '（出席＋遲到）÷（已點名 − 公出/活動）' : none, 'var(--kt-navy2)');
+    $('d-cards').innerHTML = card(('總' + TH('member')), r.totalMembers, ('名單內現有' + TH('member')), 'var(--kt-navy)') +
+      card('今日出席', TD ? pres : '—', TD ? '含遲到 ' + TD.late + ' 人' : none, 'var(--kt-ok)') +
+      card('今日缺席', TD ? TD.abs : '—', TD ? ('今日已' + TH('attendance') + ' ') + TD.n + ' 人' : none, 'var(--kt-err)') +
+      card('今日出席率', den > 0 ? Math.round(pres / den * 100) + '%' : '—', den > 0 ? ('（出席＋遲到）÷（已' + TH('attendance') + ' − 公出/活動）') : none, 'var(--kt-navy2)');
     const pts = r.days.filter(d => d.n - d.comp > 0).map(d => ({ d: d.date, v: (d.present + d.late) / (d.n - d.comp) }));
-    if (pts.length < 2) $('d-trend').innerHTML = '<div class="kt-empty">資料不足（需要至少 2 個有點名的日子）</div>';
+    if (pts.length < 2) $('d-trend').innerHTML = ('<div class="kt-empty">資料不足（需要至少 2 個有' + TH('attendance') + '的日子）</div>');
     else {
       const nw = ($('d-trend').clientWidth || 600) < 520, W = nw ? 340 : 600, H = nw ? 220 : 200, P = nw ? 38 : 30, FS = nw ? 14 : 11, x = i => P + i * (W - 2 * P) / (pts.length - 1), y = v => H - P - v * (H - 2 * P);
       $('d-trend').innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto" role="img" aria-label="出席率趨勢"><g stroke="#e5e7eb" font-size="${FS}" fill="#6b7280">${[0, .5, 1].map(v => `<line x1="${P}" x2="${W - P}" y1="${y(v)}" y2="${y(v)}"/><text x="0" y="${y(v) + 4}" stroke="none">${v * 100}%</text>`).join('')}</g><polyline fill="none" stroke="var(--kt-navy2)" stroke-width="2.5" points="${pts.map((p, i) => x(i).toFixed(1) + ',' + y(p.v).toFixed(1)).join(' ')}"/>${pts.map((p, i) => `<circle cx="${x(i).toFixed(1)}" cy="${y(p.v).toFixed(1)}" r="${nw ? 5 : 4}" fill="var(--kt-navy)"><title>${p.d}：${Math.round(p.v * 100)}%</title></circle>`).join('')}<text x="${P}" y="${H - 6}" font-size="${FS}" fill="#6b7280">${pts[0].d}</text><text x="${W - P}" y="${H - 6}" font-size="${FS}" fill="#6b7280" text-anchor="end">${pts[pts.length - 1].d}</text></svg>`;
     }
-    $('d-recent').innerHTML = r.recent.length ? `<table class="w-full text-left text-sm"><thead><tr class="text-gray-500"><th class="py-2">日期</th><th>組別</th><th>人數</th><th>出席</th><th>缺席</th><th></th></tr></thead><tbody>${r.recent.map(s => `<tr class="border-t"><td class="py-2 pr-2">${esc(s.date)}</td><td class="font-bold pr-2">${esc(s.group)}</td><td>${s.n}</td><td>${s.present + s.late}</td><td>${s.abs}</td><td><button class="text-blue-600 font-bold underline" data-d="${esc(s.date)}" data-c="${esc(s.group)}" onclick="app.openSession(this.dataset.d,this.dataset.c)">查看</button></td></tr>`).join('')}</tbody></table>` : '<div class="kt-empty">暫時沒有點名紀錄</div>';
+    $('d-recent').innerHTML = r.recent.length ? `<table class="w-full text-left text-sm"><thead><tr class="text-gray-500"><th class="py-2">日期</th><th>${TH('group')}</th><th>人數</th><th>出席</th><th>缺席</th><th></th></tr></thead><tbody>${r.recent.map(s => `<tr class="border-t"><td class="py-2 pr-2">${esc(s.date)}</td><td class="font-bold pr-2">${esc(s.group)}</td><td>${s.n}</td><td>${s.present + s.late}</td><td>${s.abs}</td><td><button class="text-blue-600 font-bold underline" data-d="${esc(s.date)}" data-c="${esc(s.group)}" onclick="app.openSession(this.dataset.d,this.dataset.c)">查看</button></td></tr>`).join('')}</tbody></table>` : ('<div class="kt-empty">暫時沒有' + TH('attendance') + '紀錄</div>');
   },
   setQ(v) { this.s.q = String(v || '').trim().toLowerCase(); if (this.s.athletes.length) this.render(); },
   exportMembers() {
-    const A = this.s.trAll || []; if (!A.length) return alert('請先載入成員名單');
+    const A = this.s.trAll || []; if (!A.length) return alert(('請先載入' + T('member') + '名單'));
     this.download('Members_' + this.today() + '.csv', '大組別,細組別,姓名,年齡,性別\n' + A.map(a => [a.Big, a.Sub, a.Name, a.Age, a.Gender].map(v => this.csvCell(v)).join(',')).join('\n'));
   },
   async rowDel(id) {
     const a = (this.s.trAll || []).find(x => x.AthleteID === id); if (!a) return;
-    if (!confirm(`⚠️ 刪除成員【${a.Name}】（${a.Big}/${a.Sub}）？\n只會從名單移除，歷史點名紀錄會保留。\n刪除前會備份到「Deleted_Members」工作表。`)) return;
+    if (!confirm(`⚠️ 刪除${T('member')}【${a.Name}】（${a.Big}/${a.Sub}）？\n只會從名單移除，歷史${T('attendance')}紀錄會保留。\n刪除前會備份到「Deleted_Members」工作表。`)) return;
     try {
       await this.api('deleteAthlete', { athleteId: id });
       const k = this.s.athletes.findIndex(x => x.AthleteID === id);
@@ -635,15 +737,17 @@ const app = {
     if (!opt.silent) $('busy').classList.remove('hidden');
     const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 40000);
     try {
-      const res = await fetch(API_URL, { method: 'POST', signal: ctl.signal, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(Object.assign({ action, token: this.s.token || '', operator: this.s.op || '' }, payload)) });
+      const res = await fetch(API_URL, { method: 'POST', signal: ctl.signal, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(Object.assign({ action, token: this.s.token || '', operator: this.s.op || '', clientCore: CLIENT_CORE }, payload)) });
       let r; try { r = await res.json(); } catch (_) { throw new Error('伺服器回應格式不正確，請確認部署網址及存取權設定'); }
-      if (!r.success) throw new Error(r.error || '未知錯誤');
+      if (!r.success) { const er = new Error(r.error || '未知錯誤'); if (typeof r.code === 'string') er.code = r.code; throw er; }
       console.log('[PERF]', action, '總耗時', Math.round(performance.now() - t0) + 'ms', r.perf ? ('｜GAS內部(ms)：' + JSON.stringify(r.perf)) : '');
       return r.data;
     } catch (e) {
       const m = e.name === 'AbortError' ? '連線逾時，資料可能未有儲存，請稍後重試並先檢查紀錄' : (e instanceof TypeError ? '網絡連線失敗，資料未有儲存，請檢查網絡後再試' : e.message);
-      if (/登入已過期/.test(m) && this.s.token) { this.logout('登入已過期或密碼已更改，請重新登入', true); }
-      throw new Error(m);
+      const er = new Error(m); if (e && e.code) er.code = e.code;
+      if (er.code) this.onCode(er.code); // 新增的錯誤 code：只更新提示，絕不登出、不刪憑證
+      else if (/登入已過期/.test(m) && this.s.token) { this.logout('登入已過期或密碼已更改，請重新登入', true); } // 原有流程不變
+      throw er;
     } finally { clearTimeout(t); if (!opt.silent) $('busy').classList.add('hidden'); }
   },
   showBusy(on) { $('busy').classList.toggle('hidden', !on); }, // 全選模式（逐個細組別呼叫）時手動控制同步畫面
@@ -652,12 +756,12 @@ const app = {
   async loadList(btn) {
     if (btn && this.s.dirty && !confirm('目前有未提交的修改，重新載入會遺失。確定？')) return;
     const big = $('att-big').value, sub = $('att-sub').value, date = $('att-date').value;
-    if (!big || !sub || !date) return alert('請填寫日期及選擇大組別、細組別！');
+    if (!big || !sub || !date) return alert(('請填寫日期及選擇' + T('bigGroup') + '、' + T('subGroup') + '！'));
     try {
       if (sub === ALL_SUB) {
         // 全選：逐個細組別查詢，合併；每個成員記住 _team 以便提交時分組
         const e = (this.s.groups || []).find(x => x.g === big);
-        if (!e || !e.subs.length) { this.clear(); return alert('此大組別未有細組別。'); }
+        if (!e || !e.subs.length) { this.clear(); return alert(('此' + T('bigGroup') + '未有' + T('subGroup') + '。')); }
         this.showBusy(true);
         let results;
         try {
@@ -677,7 +781,7 @@ const app = {
           x.r.athletes.forEach(a => { a._team = big + '/' + x.sub; allAthletes.push(a); });
           Object.assign(allSaved, x.r.saved);
         });
-        if (!allAthletes.length) { this.clear(); return alert('找不到 ' + big + ' 組的成員紀錄。' + (errs.length ? '\n' + errs.join('\n') : '')); }
+        if (!allAthletes.length) { this.clear(); return alert('找不到 ' + big + (' 組的' + T('member') + '紀錄。') + (errs.length ? '\n' + errs.join('\n') : '')); }
         this.s.defStatus = def;
         this.s.athletes = allAthletes; this.s.att = {}; this.s.orig = Object.assign({}, allSaved);
         let n = 0;
@@ -685,11 +789,11 @@ const app = {
         this.noteUpdate(n, date, big);
         this.s.loaded = { team: big, date }; this.s.filterOpen = false; this.s.dirty = false; this.render();
         ['att-stats', 'att-submit'].forEach(i => $(i).classList.remove('hidden'));
-        if (errs.length) alert('部分細組別載入失敗：\n' + errs.join('\n'));
+        if (errs.length) alert(('部分' + T('subGroup') + '載入失敗：\n') + errs.join('\n'));
       } else {
         const team = big + '/' + sub;
         const r = await this.api('getAthletes', { team, date, fresh: btn === true });
-        if (!r.athletes.length) { this.clear(); return alert('找不到 ' + team + ' 組的成員紀錄。'); }
+        if (!r.athletes.length) { this.clear(); return alert('找不到 ' + team + (' 組的' + T('member') + '紀錄。')); }
         this.s.tile = r.tileFields || this.s.tile;
         const def = r.defaultStatus === '出席' ? '出席' : '缺席'; this.s.defStatus = def; // 沒有已儲存紀錄的成員，使用後端設定的預設狀態
         this.s.athletes = r.athletes; this.s.att = {}; this.s.orig = Object.assign({}, r.saved);
@@ -702,7 +806,7 @@ const app = {
   },
   noteUpdate(n, date, team) {
     const note = $('att-note'); note.classList.toggle('hidden', !n);
-    note.textContent = n ? `${date} ${team} 組已有點名紀錄：虛線＝尚未儲存（未點名），淺黃框＝已儲存後被修改、待提交。只會更新有修改或未儲存的成員，其他成員的紀錄不受影響。` : '';
+    note.textContent = n ? `${date} ${team} 組已有${T('attendance')}紀錄：虛線＝尚未儲存（未${T('attendance')}），淺黃框＝已儲存後被修改、待提交。只會更新有修改或未儲存的${T('member')}，其他${T('member')}的紀錄不受影響。` : '';
   },
   bar() {
     const has = this.s.athletes.length > 0;
@@ -743,7 +847,7 @@ const app = {
     this.stats(list);
     if (!this.s.busy) {
       const nchg = list.filter(a => this.isChanged(a)).length, nun = this.nUn(list);
-      $('submit-btn').textContent = upd ? '✅ 更新點名（' + nchg + (nun ? ' 人，其中 ' + nun + ' 人首次記錄）' : ' 人有修改）') : '✅ 提交點名紀錄（' + list.length + ' 人）';
+      $('submit-btn').textContent = upd ? ('✅ 更新' + T('attendance') + '（') + nchg + (nun ? ' 人，其中 ' + nun + ' 人首次記錄）' : ' 人有修改）') : ('✅ 提交' + T('attendance') + '紀錄（') + list.length + ' 人）';
     }
     this.bar(); window.scrollTo(0, y);
   },
@@ -755,7 +859,7 @@ const app = {
       const cnt = this.tf('cnt') ? (a.absCount ? '缺' + a.absCount : '') + (a.lateCount ? ' 遲' + a.lateCount : '') : '';
       return `<button class="relative rounded-lg border-2 px-0.5 pt-4 pb-4 min-h-[76px] text-center leading-tight ${C.tile}${chg}" onclick="app.openSheet(${i})"><span class="absolute top-0.5 left-1 text-xs opacity-70">${esc(this.meta(a))}</span>${rem && this.tf('remark') ? '<span class="absolute top-1 right-1 w-2.5 h-2.5 rounded-full bg-yellow-400 border border-white"></span>' : ''}<span class="block font-bold text-sm break-all">${esc(a.Name)}</span><span class="block text-xs break-all">${un ? '未儲存·' : ''}${esc(st)}</span>${cnt ? `<span class="absolute bottom-0.5 right-1 text-[11px] leading-none opacity-80">${cnt}</span>` : ''}</button>`;
     };
-    return `<div class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-1.5">${idx.map(tile).join('')}</div><div class="text-xs text-gray-500 mt-2">撳成員格仔改狀態。左上＝性別／年齡；右上黃點＝有成員備註；右下「缺／遲」＝累計缺席／遲到次數（顯示內容可由管理員在「管理後台」設定）</div>`;
+    return `<div class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-1.5">${idx.map(tile).join('')}</div><div class="text-xs text-gray-500 mt-2">撳${TH('member')}格仔改狀態。左上＝性別／年齡；右上黃點＝有${TH('member')}備註；右下「缺／遲」＝累計缺席／遲到次數（顯示內容可由${TH('admin')}在「管理後台」設定）</div>`;
   },
   listHtml(idx, upd) {
     const chip = 'px-2 rounded text-xs font-bold min-h-[32px] ', showCnt = this.tf('cnt');
@@ -773,7 +877,7 @@ const app = {
   setP(i, p) { this.s.dirty = true; this.s.att[this.s.athletes[i].AthleteID] = p; this.render(); },
   dates(i, t) { const a = this.s.athletes[i]; alert(a.Name + (t === 'abs' ? ' 缺席紀錄：\n' + a.absDates : ' 遲到紀錄：\n' + a.lateDates)); },
   async editRemark(i) {
-    const a = this.s.athletes[i], v = prompt(a.Name + ' 成員備註（留空＝清除）：', a.Remarks || '');
+    const a = this.s.athletes[i], v = prompt(a.Name + (' ' + T('member') + '備註（留空＝清除）：'), a.Remarks || '');
     if (v === null) return;
     try { await this.api('setRemark', { athleteId: a.AthleteID, remark: v.trim() }, { silent: true }); a.Remarks = v.trim().slice(0, 100); this.render(); if (this.s.sheetI != null) this.sheetRender(); }
     catch (e) { alert('錯誤：' + e.message); }
@@ -795,7 +899,7 @@ const app = {
     const pbtn = p => `<button class="${big}text-base ${st === p ? SC[p].on : 'bg-gray-100 text-gray-700 border-gray-200'}" onclick="app.sheetP('${p}')">${p}</button>`;
     const hist = (a.absCount ? `<div class="text-sm"><b class="text-red-600">缺席 ${a.absCount} 次：</b>${esc(a.absDates)}</div>` : '') + (a.lateCount ? `<div class="text-sm"><b class="text-yellow-700">遲到 ${a.lateCount} 次：</b>${esc(a.lateDates)}</div>` : '');
     $('sheet-body').innerHTML = `<div class="flex items-center justify-between mb-2"><div class="text-lg"><span class="text-gray-500 mr-2">${esc(this.meta(a))}</span><b class="text-blue-800">${esc(a.Name)}</b></div><button class="px-4 py-2 text-2xl text-gray-500" onclick="app.closeSheet()">✕</button></div>` +
-      `<div class="flex flex-wrap items-center gap-2 mb-3"><button class="px-3 rounded text-sm font-bold text-white min-h-[40px] ${rem ? 'bg-yellow-500' : 'bg-gray-400'}" onclick="app.editRemark(${i})">📝 ${rem ? '成員備註' : '加備註'}</button>${rem ? `<span class="text-sm text-gray-600">${esc(rem)}</span>` : ''}</div>` +
+      `<div class="flex flex-wrap items-center gap-2 mb-3"><button class="px-3 rounded text-sm font-bold text-white min-h-[40px] ${rem ? 'bg-yellow-500' : 'bg-gray-400'}" onclick="app.editRemark(${i})">📝 ${rem ? (TH('member') + '備註') : '加備註'}</button>${rem ? `<span class="text-sm text-gray-600">${esc(rem)}</span>` : ''}</div>` +
       `<div class="grid grid-cols-3 gap-2">${STATUS.map(pbtn).join('')}</div><div class="mt-3 space-y-1">${hist}</div>` +
       `<div class="grid grid-cols-3 gap-2 mt-4"><button class="btn bg-gray-500" onclick="app.sheetNav(-1)">◀ 上一位</button><button class="btn bg-blue-600" onclick="app.closeSheet()">完成</button><button class="btn bg-gray-500" onclick="app.sheetNav(1)">下一位 ▶</button></div>`;
   },
@@ -818,7 +922,7 @@ const app = {
     const upd = this.hasSaved();
     const shown = this.s.athletes;
     const target = upd ? shown.filter(a => this.isChanged(a)) : shown;
-    if (!target.length) return alert(upd ? '沒有任何修改，毋須更新。' : '目前沒有可提交的成員');
+    if (!target.length) return alert(upd ? '沒有任何修改，毋須更新。' : ('目前沒有可提交的' + T('member')));
     const snap = target.map(a => ({ id: a.AthleteID, st: this.s.att[a.AthleteID], a }));
 
     // 全選模式：按每位成員實際所屬的細組別分組提交
@@ -830,7 +934,7 @@ const app = {
         groups[t].push(a);
       });
       const teamNames = Object.keys(groups);
-      if (!confirm(`確認提交以下組別的點名？\n${teamNames.join('\n')}\n共 ${target.length} 人。`)) return;
+      if (!confirm(`確認提交以下${T('group')}的${T('attendance')}？\n${teamNames.join('\n')}\n共 ${target.length} 人。`)) return;
       this.s.busy = true; const btn = $('submit-btn'); btn.disabled = true; btn.textContent = '⏳ 提交中…（請勿關閉頁面）';
       this.showBusy(true);
       const results = [];
@@ -855,7 +959,7 @@ const app = {
         alert('✅ 提交完成\n' + results.join('\n'));
       } catch (e) {
         this.s.busy = false; this.showBusy(false); btn.disabled = false; if (this.s.athletes.length) this.render();
-        alert('❌ 提交中斷\n已成功：\n' + (results.join('\n') || '（無）') + '\n\n失敗原因：' + e.message + '\n（已成功的組別不會重複提交，修正後可再按提交完成其餘）');
+        alert('❌ 提交中斷\n已成功：\n' + (results.join('\n') || '（無）') + '\n\n失敗原因：' + e.message + ('\n（已成功的' + T('group') + '不會重複提交，修正後可再按提交完成其餘）'));
       }
       return;
     }
@@ -864,8 +968,8 @@ const app = {
     const team = this.tm('att-big', 'att-sub');
     const records = snap.map(x => ({ AthleteID: x.id, AttendanceStatus: x.st, Orig: this.s.orig[x.id] !== undefined ? this.s.orig[x.id] : null }));
     const names = target.slice(0, 8).map(a => a.Name).join('、') + (target.length > 8 ? '…' : '');
-    const msg = upd ? `更新 ${team}（${date}）的點名紀錄？\n只會更新 ${target.length} 名成員：${names}${this.nUn(target) ? `\n⚠️ 其中 ${this.nUn(target)} 人是首次記錄（未點名的會按畫面現時狀態儲存）` : ''}\n其他成員的紀錄不受影響。`
-                    : `確認提交 ${team}（${date}）的點名紀錄？\n共 ${records.length} 人。`;
+    const msg = upd ? `更新 ${team}（${date}）的${T('attendance')}紀錄？\n只會更新 ${target.length} 名${T('member')}：${names}${this.nUn(target) ? `\n⚠️ 其中 ${this.nUn(target)} 人是首次記錄（未${T('attendance')}的會按畫面現時狀態儲存）` : ''}\n其他${T('member')}的紀錄不受影響。`
+                    : `確認提交 ${team}（${date}）的${T('attendance')}紀錄？\n共 ${records.length} 人。`;
     if (!confirm(msg)) return;
     this.s.busy = true; const btn = $('submit-btn'); btn.disabled = true; btn.textContent = '⏳ 提交中…（請勿關閉頁面）';
     try {
@@ -884,7 +988,7 @@ const app = {
   },
   async clearSession() {
     const L = this.s.loaded; if (!L || this.s.busy) return;
-    if (!confirm(`⚠️ 清除 ${L.team}（${L.date}）已儲存的點名紀錄？\n清除後可重新點名；被清除的紀錄會備份到「Deleted_Log」工作表。\n（畫面上未提交的修改也會被重置）`)) return;
+    if (!confirm(`⚠️ 清除 ${L.team}（${L.date}）已儲存的${T('attendance')}紀錄？\n清除後可重新${T('attendance')}；被清除的紀錄會備份到「Deleted_Log」工作表。\n（畫面上未提交的修改也會被重置）`)) return;
     try {
       // 全選模式：需要逐個細組別清除
       if ($('att-sub').value === ALL_SUB && L.team === $('att-big').value) {
@@ -1000,7 +1104,7 @@ const app = {
     this.s.sumView = v;
     $('s-head').innerHTML = '<tr>' + cols.map(key => `<th class="p-3 cursor-pointer whitespace-nowrap select-none${key === 'Name' ? ' kt-sticky' : ''}" onclick="app.sortSum('${key}')">${lab[key]}${k === key ? (dir < 0 ? ' ▼' : ' ▲') : ''}</th>`).join('') + '</tr>';
     const ds = new Set(); (this.s.sum || []).forEach(r => (r.d.all || []).forEach(x => ds.add(x.slice(0, 10))));
-    $('s-info').textContent = `共 ${v.length} 人（紅色＝缺席 ≥ ${ta}；黃色＝遲到 ≥ ${tl}）` + (ds.size ? `；涵蓋 ${ds.size} 個點名日：${[...ds].sort().map(x => x.slice(5)).join('、')}` : '');
+    $('s-info').textContent = `共 ${v.length} 人（紅色＝缺席 ≥ ${ta}；黃色＝遲到 ≥ ${tl}）` + (ds.size ? `；涵蓋 ${ds.size} 個${T('attendance')}日：${[...ds].sort().map(x => x.slice(5)).join('、')}` : '');
     const val = (key, r) => (key === 'rate' || key === 'prate') ? (r[key] * 100).toFixed(0) + '%' : r[key];
     const cell = (key, r) => {
       const c = key === 'abs' && r.abs >= ta ? 'bg-red-100 text-red-700 font-bold' : key === 'late' && r.late >= tl ? 'bg-yellow-100 text-yellow-700 font-bold' : key === 'Name' ? 'font-bold' : '';
@@ -1018,7 +1122,7 @@ const app = {
     const cols = this.visCols(), lab = Object.fromEntries(SUMDEF);
     const val = (key, r) => (key === 'rate' || key === 'prate') ? (r[key] * 100).toFixed(0) + '%' : r[key];
     const rows = v.map(r => cols.map(key => val(key, r)).concat([r.d.abs.join(' '), r.d.late.join(' '), r.d.sick.join(' '), r.d.leave.join(' ')]).map(x => this.csvCell(x)).join(','));
-    this.download('Member_Summary_' + this.today() + '.csv', cols.map(key => lab[key]).concat(['缺席日期', '遲到日期', '病假日期', '請假日期']).join(',') + '\n' + rows.join('\n'));
+    this.download('Member_Summary_' + this.today() + '.csv', cols.map(key => key === 'Group' ? '組別' : lab[key]).concat(['缺席日期', '遲到日期', '病假日期', '請假日期']).join(',') + '\n' + rows.join('\n'));
   },
 
   // ----- 管理後台 -----
@@ -1042,8 +1146,8 @@ const app = {
       try {
         const p = await this.api('previewImport', { athletes, mode });
         const msg = mode === 'replace'
-          ? `【完整替換】\n現有 ${p.existing} 人 → 新名單 ${athletes.length} 人\n新增 ${p.add} 人、更新 ${p.update} 人、不再出現（將從名單移除）${p.remove} 人\n歷史點名紀錄不會被刪除。確定執行？`
-          : `【新增／更新】\n共 ${athletes.length} 筆：新增 ${p.add} 人、更新 ${p.update} 人，不會刪除任何成員。確定執行？`;
+          ? `【完整替換】\n現有 ${p.existing} 人 → 新名單 ${athletes.length} 人\n新增 ${p.add} 人、更新 ${p.update} 人、不再出現（將從名單移除）${p.remove} 人\n歷史${T('attendance')}紀錄不會被刪除。確定執行？`
+          : `【新增／更新】\n共 ${athletes.length} 筆：新增 ${p.add} 人、更新 ${p.update} 人，不會刪除任何${T('member')}。確定執行？`;
         if (!confirm(msg)) return;
         const r = await this.api('importAthletes', { athletes, mode, confirm: true });
         alert(`✅ 匯入完成！新增 ${r.added}、更新 ${r.updated}、移除 ${r.removed}`); $('csv-file').value = ''; this.s.trAll = null; this.refreshGroups();
@@ -1067,12 +1171,12 @@ const app = {
       if (!rows.length) return alert('找不到有效資料，欄位順序應為：大組別、細組別、姓名、備註');
       try {
         const p = await this.api('previewRemark', { rows });
-        let msg = `將更新 ${p.matched} 名成員的備註（其中有備註 ${p.withRemark} 人，其餘為清除）。`;
-        if (p.missingCount) msg += `\n找不到 ${p.missingCount} 名成員（${p.missing.slice(0, 10).join('、')}${p.missingCount > 10 ? '…' : ''}），不會處理。`;
-        msg += '\n名單內成員的備註以 CSV 為準。確定執行？';
+        let msg = `將更新 ${p.matched} 名${T('member')}的備註（其中有備註 ${p.withRemark} 人，其餘為清除）。`;
+        if (p.missingCount) msg += `\n找不到 ${p.missingCount} 名${T('member')}（${p.missing.slice(0, 10).join('、')}${p.missingCount > 10 ? '…' : ''}），不會處理。`;
+        msg += ('\n名單內' + T('member') + '的備註以 CSV 為準。確定執行？');
         if (!confirm(msg)) return;
         const r = await this.api('importRemark', { rows, confirm: true });
-        alert(`✅ 已更新 ${r.updated} 名成員`); $('rm-file').value = '';
+        alert(`✅ 已更新 ${r.updated} 名${T('member')}`); $('rm-file').value = '';
       } catch (e) { alert('❌ 上載失敗，沒有修改任何資料：\n' + e.message); }
     }, error: e => alert('CSV 讀取失敗：' + e.message) });
   },
@@ -1108,10 +1212,10 @@ const app = {
     } catch (e) { this.showBusy(false); alert('錯誤：' + e.message); }
   },
   async delAthlete() {
-    const id = $('da-ath').value; if (!id) return alert('請先選擇組別及成員');
+    const id = $('da-ath').value; if (!id) return alert(('請先選擇' + T('group') + '及' + T('member')));
     const name = $('da-ath').selectedOptions[0].textContent;
     const team = $('da-sub').value === ALL_SUB ? $('da-big').value + '（全組）' : $('da-big').value + '/' + $('da-sub').value;
-    if (!confirm(`⚠️ 刪除成員【${name}】（${team}）？\n只會從名單移除，已有的歷史點名紀錄會保留。\n刪除前會備份到「Deleted_Members」工作表。`)) return;
+    if (!confirm(`⚠️ 刪除${T('member')}【${name}】（${team}）？\n只會從名單移除，已有的歷史${T('attendance')}紀錄會保留。\n刪除前會備份到「Deleted_Members」工作表。`)) return;
     try {
       await this.api('deleteAthlete', { athleteId: id });
       const k = this.s.athletes.findIndex(a => a.AthleteID === id); // 點名頁若正顯示該成員，同步移除
@@ -1127,7 +1231,7 @@ const app = {
     if (from > to) return alert('開始日期不可遲於結束日期');
     try {
       const r = await this.api('exportAttendance', { from, to, team: this.tm('ex-big', 'ex-sub') });
-      if (!r.rows.length) return alert('這段期間沒有點名紀錄');
+      if (!r.rows.length) return alert(('這段期間沒有' + T('attendance') + '紀錄'));
       const rows = r.rows.map(x => x.map(v => this.csvCell(v)).join(','));
       this.download('Attendance_' + from + '_to_' + to + '.csv', '日期,組別,姓名,狀態,更新人\n' + rows.join('\n'));
       $('ex-info').textContent = '已下載 ' + r.rows.length + ' 筆（' + from + ' 至 ' + to + '）';
@@ -1135,9 +1239,9 @@ const app = {
   },
   async reset() {
     const scope = $('rs-scope').value, team = this.tm('rs-big', 'rs-sub');
-    if (scope === 'group' && !team) return alert('請選擇大組別');
-    const label = scope === 'group' ? team : '全部組別';
-    if (prompt(`⚠️ 即將清除【${label}】的所有點名紀錄（會先自動備份）。\n請輸入 DELETE 確認：`) !== 'DELETE') return alert('已取消');
+    if (scope === 'group' && !team) return alert(('請選擇' + T('bigGroup')));
+    const label = scope === 'group' ? team : ('全部' + T('group'));
+    if (prompt(`⚠️ 即將清除【${label}】的所有${T('attendance')}紀錄（會先自動備份）。\n請輸入 DELETE 確認：`) !== 'DELETE') return alert('已取消');
     try { const r = await this.api('resetRecords', { scope, targetTeam: team, confirmText: 'DELETE' }); alert('✅ ' + r.message); }
     catch (e) { alert('❌ ' + e.message); }
   },
@@ -1148,30 +1252,30 @@ const app = {
     try {
       const r = await this.api('setDefaultStatus', { status: v });
       this.s.defStatus = r.defaultStatus;
-      alert('✅ 已儲存：日後新開的點名預設為「' + r.defaultStatus + '」\n（已儲存的紀錄及目前畫面不受影響）');
+      alert(('✅ 已儲存：日後新開的' + T('attendance') + '預設為「') + r.defaultStatus + '」\n（已儲存的紀錄及目前畫面不受影響）');
     } catch (e) { alert('❌ 儲存失敗：\n' + e.message); }
   },
 
   // ----- 組別管理 -----
   async addGroup() {
     const g = $('ag-big').value.trim(), s = $('ag-sub').value.trim();
-    if (!g) return alert('請輸入大組別名稱');
-    if (g.includes('/') || s.includes('/')) return alert('組別名稱不可包含「/」');
+    if (!g) return alert(('請輸入' + T('bigGroup') + '名稱'));
+    if (g.includes('/') || s.includes('/')) return alert((T('group') + '名稱不可包含「/」'));
     try {
       await this.api('addGroup', { big: g, sub: s });
       $('ag-big').value = ''; $('ag-sub').value = ''; await this.refreshGroups();
-      alert('✅ 已新增組別：' + g + (s ? '/' + s : ''));
+      alert(('✅ 已新增' + T('group') + '：') + g + (s ? '/' + s : ''));
     } catch (e) { alert('❌ 新增失敗：\n' + e.message); }
   },
   async delGroup() {
     const g = $('gd-big').value, s = $('gd-sub').value;
-    if (!g) return alert('請選擇要刪除的大組別');
-    const label = g + (s ? '/' + s : '（整個大組別）');
-    if (!confirm(`⚠️ 刪除組別【${label}】？\n只有沒有成員的組別才可刪除；歷史點名紀錄不會被刪除。\n此操作無法還原（可重新新增同名組別）。`)) return;
+    if (!g) return alert(('請選擇要刪除的' + T('bigGroup')));
+    const label = g + (s ? '/' + s : ('（整個' + T('bigGroup') + '）'));
+    if (!confirm(`⚠️ 刪除${T('group')}【${label}】？\n只有沒有${T('member')}的${T('group')}才可刪除；歷史${T('attendance')}紀錄不會被刪除。\n此操作無法還原（可重新新增同名${T('group')}）。`)) return;
     try {
       await this.api('deleteGroup', { big: g, sub: s });
       await this.refreshGroups(); this.s.trAll = null;
-      alert('✅ 已刪除組別：' + label);
+      alert(('✅ 已刪除' + T('group') + '：') + label);
     } catch (e) { alert('❌ 刪除失敗：\n' + e.message); }
   },
 
@@ -1187,7 +1291,7 @@ const app = {
   renderTr() {
     if (!this.s.trAll) return;
     const rows = this.trRows(), sel = this.s.trSel || {}, show = rows.slice(0, 500);
-    $('tr-body').innerHTML = show.length ? show.map(a => `<tr class="border-b"><td class="p-3"><label class="kt-tap"><input type="checkbox" class="w-5 h-5" ${sel[a.AthleteID] ? 'checked' : ''} onchange="app.trTog('${esc(a.AthleteID)}',this.checked)"></label></td><td class="p-3 font-bold">${esc(a.Name)}</td><td class="p-3">${esc(a.Gender)}</td><td class="p-3">${esc(a.Age)}</td><td class="p-3">${esc(a.Big)} / ${esc(a.Sub)}</td><td class="p-3"><button class="gb !text-red-700 !border-red-300" onclick="app.rowDel('${esc(a.AthleteID)}')">刪除</button></td></tr>`).join('') + (rows.length > 500 ? '<tr><td colspan="6" class="p-3 text-center text-gray-500">只顯示首 500 人，請用上方篩選縮窄範圍</td></tr>' : '') : '<tr><td colspan="6" class="p-4 text-center text-gray-500">沒有符合的成員</td></tr>';
+    $('tr-body').innerHTML = show.length ? show.map(a => `<tr class="border-b"><td class="p-3"><label class="kt-tap"><input type="checkbox" class="w-5 h-5" ${sel[a.AthleteID] ? 'checked' : ''} onchange="app.trTog('${esc(a.AthleteID)}',this.checked)"></label></td><td class="p-3 font-bold">${esc(a.Name)}</td><td class="p-3">${esc(a.Gender)}</td><td class="p-3">${esc(a.Age)}</td><td class="p-3">${esc(a.Big)} / ${esc(a.Sub)}</td><td class="p-3"><button class="gb !text-red-700 !border-red-300" onclick="app.rowDel('${esc(a.AthleteID)}')">刪除</button></td></tr>`).join('') + (rows.length > 500 ? '<tr><td colspan="6" class="p-3 text-center text-gray-500">只顯示首 500 人，請用上方篩選縮窄範圍</td></tr>' : '') : ('<tr><td colspan="6" class="p-4 text-center text-gray-500">沒有符合的' + TH('member') + '</td></tr>');
     this.trCount();
   },
   trSelected() { const sel = this.s.trSel || {}; return this.trRows().filter(a => sel[a.AthleteID]); }, // 只計算目前篩選結果內已剔選的人
@@ -1196,24 +1300,81 @@ const app = {
   trAllTog(on) { this.s.trSel = this.s.trSel || {}; this.trRows().slice(0, 500).forEach(a => { if (on) this.s.trSel[a.AthleteID] = 1; else delete this.s.trSel[a.AthleteID]; }); this.renderTr(); },
   async doMove() {
     const list = this.trSelected(), big = $('tg-big').value, sub = $('tg-sub').value;
-    if (!list.length) return alert('請先剔選要轉組的成員');
-    if (!big || !sub) return alert('請選擇轉往的大組別及細組別');
+    if (!list.length) return alert(('請先剔選要轉組的' + T('member')));
+    if (!big || !sub) return alert(('請選擇轉往的' + T('bigGroup') + '及' + T('subGroup')));
     const names = list.slice(0, 8).map(a => a.Name + '（' + a.Big + '/' + a.Sub + '）').join('、') + (list.length > 8 ? '…' : '');
-    if (!confirm(`確認將 ${list.length} 名成員轉往【${big}/${sub}】？\n${names}\n\n成員 ID 不變；歷史點名紀錄保留原來的組別名稱；之後的點名會歸入新組別。`)) return;
+    if (!confirm(`確認將 ${list.length} 名${T('member')}轉往【${big}/${sub}】？\n${names}\n\n${T('member')} ID 不變；歷史${T('attendance')}紀錄保留原來的${T('group')}名稱；之後的${T('attendance')}會歸入新${T('group')}。`)) return;
     try {
       const r = await this.api('moveAthletes', { ids: list.map(a => a.AthleteID), big, sub });
       this.s.trSel = {};
       if (this.s.athletes.length && !this.s.dirty) this.clear(); // 點名頁的名單已過期，清走（有未提交修改時則保留，請稍後按「重新載入」）
       await this.loadTr(); await this.refreshGroups();
-      alert(`✅ 轉組成功：已將 ${r.moved} 名成員轉往 ${r.group}` + (r.skipped ? `\n（${r.skipped} 人原本已在該組，沒有更改）` : '') + (this.s.dirty ? '\n⚠️ 點名頁有未提交的修改，請提交後再按「重新載入」。' : ''));
+      alert(`✅ 轉組成功：已將 ${r.moved} 名${T('member')}轉往 ${r.group}` + (r.skipped ? `\n（${r.skipped} 人原本已在該組，沒有更改）` : '') + (this.s.dirty ? ('\n⚠️ ' + T('attendance') + '頁有未提交的修改，請提交後再按「重新載入」。') : ''));
     } catch (e) { alert('❌ 轉組失敗，沒有修改任何資料：\n' + e.message); }
   }
 };
 window.addEventListener('beforeunload', e => { if (app.s.dirty || app.s.busy) { e.preventDefault(); e.returnValue = ''; } });
-if (/^https:/.test(API_URL)) fetch(API_URL, { mode: 'no-cors' }).catch(() => {}); // 開頁即叫醒後端
+// ===== Klassuno Core 前端：模組顯示（只負責 UI；真正的限制由後端執行）、版本橫幅、系統資訊 =====
+Object.assign(app, {
+  rt: {},
+  applyModules(u) {
+    const f = (u && u.featureFlags) || {}; // 舊版後端沒有 featureFlags ＝ 全部顯示（由後端自行決定是否允許）
+    this.s.mods = { attendance: f.attendanceEnabled !== false, memberManagement: f.memberManagementEnabled !== false, groupManagement: f.groupManagementEnabled !== false };
+    document.querySelectorAll('[data-mod]').forEach(e => e.classList.toggle('mod-off', this.s.mods[e.dataset.mod] === false));
+  },
+  landing() {
+    const m = this.s.mods || {};
+    if (m.attendance !== false) return window.matchMedia('(min-width:1024px)').matches ? 'dash' : 'attendance';
+    if (this.s.role === 'admin') return m.memberManagement !== false ? 'transfer' : (m.groupManagement !== false ? 'groups' : 'athletes');
+    return 'nomod';
+  },
+  refreshWho() { $('who').textContent = this.s.token ? '（' + (this.s.role === 'admin' ? T('admin') : T('operator')) + (this.s.whoSuf || '') + '）' : ''; },
+  refreshTitle() { this.refreshWho(); const n = this.s.org || ''; $('org').textContent = n || T('systemName'); if (this.s.token) document.title = n ? n + '｜' + CFG.brand.productName + ' ' + T('systemName') : baseTitle(); },
+  onCode(code) { // 後端錯誤 code：只更新提示，絕不登出、不刪除憑證（登出只由原有的「登入已過期」流程處理）
+    if (code === 'READ_ONLY') this.rt.readOnly = true; else if (code === 'CLIENT_STALE') this.rt.stale = true; else return;
+    this.renderBanner();
+  },
+  renderBanner() {
+    const el = $('ver-warn'), u = this.s.sys, rt = this.rt || {}; if (!el) return;
+    if (!this.s.token || !u) { el.classList.add('hidden'); return; }
+    const L = [], admin = this.s.role === 'admin'; let lvl = 0, reload = false;
+    const add = (lv, t, r) => { L.push(t); if (lv > lvl) lvl = lv; if (r) reload = true; };
+    const legacyBE = !u.coreVersion, be = u.coreVersion || u.version || '', c = sv(CLIENT_CORE), b = sv(be), inc = u.compat && u.compat.status === 'incompatible';
+    if (inc) add(3, '🚫 系統目前處於唯讀模式：' + (u.compat.reason || '版本不相容') + '。所有寫入操作都會被拒絕，請聯絡系統' + T('admin') + '更新系統。');
+    else if (rt.readOnly) add(3, '🚫 後端剛才拒絕了寫入操作（唯讀模式）。請聯絡系統' + T('admin') + '。');
+    if (u.clientStale || rt.stale) add(3, '⚠️ 你使用的網頁版本（Core ' + CLIENT_CORE + '）過舊，後端已拒絕寫入。請強制重新整理頁面（Ctrl+Shift+R）。', true);
+    else if (b && c && c[0] !== b[0]) add(3, '⚠️ 網頁（Core ' + CLIENT_CORE + '）與後端（Core ' + be + '）主版本不同，可能不兼容。請強制重新整理頁面或更新後端。', true);
+    else if (legacyBE && b && c && svCmp(CLIENT_CORE, be) === 1) add(2, '⚠️ 後端為舊版（' + be + '），網頁為 Core ' + CLIENT_CORE + '。版本相容檢查及模組控制在後端未生效；請更新 Code.gs 並重新部署為「新版本」。');
+    else if (!legacyBE && b && c && c[1] !== b[1]) add(1, 'ℹ️ 網頁（Core ' + CLIENT_CORE + '）與後端（Core ' + be + '）版本不同，建議更新至相同版本。');
+    if (admin && u.compat && u.compat.status === 'update-recommended') add(2, '⚠️ ' + (u.compat.reason || '建議更新 Core') + '。');
+    if (admin && u.configWarnings && u.configWarnings.length) add(1, '⚙️ ProductConfig 有 ' + u.configWarnings.length + ' 項設定警告，請在「系統資訊」查看。');
+    if (!L.length) { el.classList.add('hidden'); el.textContent = ''; return; }
+    el.textContent = ''; el.style.background = ['', '#2563eb', '#d97706', '#dc2626'][lvl];
+    L.forEach(t => { const d = document.createElement('div'); d.textContent = t; el.appendChild(d); });
+    if (reload) { const bt = document.createElement('button'); bt.className = 'underline font-bold'; bt.textContent = '立即重新整理'; bt.onclick = () => location.reload(); el.appendChild(bt); }
+    el.classList.remove('hidden');
+  },
+  sysInfo() { // 唯讀系統資訊：Product 與 Core 版本分開顯示；沒有任何輸入欄位
+    const u = this.s.sys || {}, body = $('si-body'), na = '—', legacy = !u.coreVersion; body.textContent = '';
+    const sec = (title, rows) => {
+      const h = document.createElement('div'); h.className = 'font-bold text-sm mt-3 mb-1'; h.style.color = 'var(--kt-navy)'; h.textContent = title; body.appendChild(h);
+      const tb = document.createElement('table'); tb.className = 'w-full text-sm';
+      rows.forEach(([k, v]) => { const tr = tb.insertRow(); tr.style.borderBottom = '1px solid #e5e7eb'; const a = tr.insertCell(), c = tr.insertCell(); a.className = 'py-1 pr-3 text-gray-500 align-top'; c.className = 'py-1 break-words'; a.textContent = k; c.textContent = (v == null || v === '') ? na : String(v); });
+      body.appendChild(tb);
+    };
+    const st = u.compat ? ({ ok: '正常', 'update-recommended': '建議更新 Core', incompatible: '不相容（唯讀模式）' }[u.compat.status] || String(u.compat.status)) : na;
+    sec('產品 Product', [['產品名稱', u.productName || CFG.brand.productName], ['Product Version（產品版本）', legacy ? '舊版後端未提供' : u.productVersion], ['Product ID', u.productId], ['建置日期 Build Date', u.buildDate], ['發布／最後更新', u.releaseDate || u.buildDate], ['啟用模組', (u.modules || []).join('、') || (legacy ? '舊版後端未提供' : '（無）')]]);
+    sec('Klassuno Core（核心）', [['Core Version（後端）', legacy ? (u.version || '') + '（舊版後端，未提供 Core／Product 分項資訊）' : u.coreVersion], ['要求的 Core 版本', u.requiredCoreVersion], ['最低支援 Core 版本', u.minimumCoreVersion], ['相容狀態', st], ['Core Version（本網頁）', CLIENT_CORE], ['後端接受的最低網頁版本', u.minClientCore]]);
+    if (this.s.role === 'admin' && u.configWarnings && u.configWarnings.length) sec('設定警告', u.configWarnings.map((w, i) => [String(i + 1), w]));
+    $('sysinfo').classList.remove('hidden');
+  },
+  closeSysInfo() { const e = $('sysinfo'); if (e) e.classList.add('hidden'); }
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') app.closeSysInfo(); });
 ['click', 'keydown', 'touchstart'].forEach(ev => document.addEventListener(ev, () => app.idleArm(), { passive: true }));
 let _rz; window.addEventListener('resize', () => { clearTimeout(_rz); _rz = setTimeout(() => { const d = app.s.dash; if (d && !$('sec-dash').classList.contains('hidden') && (($('d-trend').clientWidth || 600) < 520) !== app._nw) app.renderDash(d.r); }, 200); }); // 直向／橫向切換時重繪趨勢圖
-app.init(); app.resume();
+app.init(); try { renderAll(); } catch (e) { console.warn('[config] 套用設定失敗，使用內建預設', e); }
+app.resume(); fetchCfg(); // fetchCfg 同時負責開頁叫醒後端
 </script>
 </body>
 </html>
